@@ -1,6 +1,9 @@
 #include "InputStream.h"
+#include <iostream>
+using namespace std;
 
-int main(int argc, char const *argv[]) {
-  //Bjr c est moi
-  return 0;
+int main()
+{
+  cout << "Hello World! ";
+  cout << "I'm a C++ program";
 }
