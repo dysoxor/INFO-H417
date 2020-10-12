@@ -1,6 +1,6 @@
 #include "InputStream.h"
 
 int main(int argc, char const *argv[]) {
-  /* code */
+  //Bjr c est moi
   return 0;
 }
