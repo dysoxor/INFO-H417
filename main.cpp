@@ -1,9 +1,8 @@
 #include "InputStream.h"
-#include <iostream>
+#include "OutputStream.h"
 using namespace std;
 
-int main()
+int main(int argc, char** argv)
 {
-  cout << "Hello World! ";
-  cout << "I'm a C++ program";
+  open("test.txt");
 }

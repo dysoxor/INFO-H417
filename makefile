@@ -1,5 +1,13 @@
-main: main.o
-	g++ -o main main.o
+CPPFLAG=g++
+EXEC=main
 
-main.o: main.cpp
-	g++ -c -o main.o main.cpp
+all: $(EXEC)
+
+main: main.o InputStream.o OutputStream.o
+	$(CPPFLAG) -o $@ $^
+%.o: %.cpp
+	$(CPPFLAG) -o $@ -c $^
+clean:
+	rm -rf *.o
+mrproper: clean
+	rm -rf find

@@ -5,10 +5,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <io.h>
 using namespace std;
 
-void create();
-void writeln(string line);
+void create(const char* path);
 void close();
+
+void writeln1(const char* line);
+void writeln2(const char* line);
 
 #endif //PROJECT_OUTPUTSTREAM_H
