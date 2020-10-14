@@ -4,12 +4,17 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <windows.h>
 using namespace std;
 
+class InputStream{
 
-void open(string path);
-string readln();
-void seek(int pos);
-bool end_of_stream();
+public :
+  void open(string path);
+  string readln(); // Voir si on envoie pas un parametre pour select le mode de read
+  string readln4(string path, unsigned int numberOfByte);
+  void seek(int pos);
+  bool end_of_stream();
+};
 
 #endif //PROJECT_INPUTSTREAM_H
