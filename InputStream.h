@@ -8,11 +8,34 @@
 using namespace std;
 
 class InputStream{
+private:
+  ifstream inputFile;
+  HANDLE hfile;
+  HANDLE hfileMapping;
+  LPVOID fileView = NULL;
+  DWORD fileOpenSize;
+  DWORD granularity; //Granularity of the system used to know the size of each memory block
+  DWORD startMapView = 0; //Number of bits at which we create the view in the file, starting value 0
+  int numberOfBlockMapped = 1; //Base one but can be chosen by the user
+  int offsetBytesCounter = 0;
 
-public :
+public:
+  InputStream(); // Constructor
+
   void open(string path);
+
+ //Method concerning readln4 for the mapping method
+  void openAndMapFile(string path, DWORD offsetInTheFile=0, int numberOfBlock=1);
+  void openFile(string path); //Open the file and store into hfile the link
+  void mappingFile();
+  void mapViewLink();
+  void closeWindowsFile();
+  void closeMappingFile();
+  void closeMapView();
+  void closeAllMappingRelatedObjects();
+
   string readln(); // Voir si on envoie pas un parametre pour select le mode de read
-  string readln4(string path, unsigned int numberOfByte);
+  string readln4(); //Read the next line via mapping
   void seek(int pos);
   bool end_of_stream();
 };

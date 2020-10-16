@@ -7,8 +7,13 @@ int main()
 {
   string filePath = "C:\\Users\\Asus ROG\\Documents\\ulb\\MA1\\DatabaseProject\\imdb\\aka_name.csv" ;
   InputStream stream;
-  stream.readln4(filePath,0);
+  stream.openAndMapFile(filePath,0,1);
+  string text = ""; // Use to concatenate all the lines faster than displaying one by one
+  for(int i=0; i<1000; ++i){
+    std :: cout << stream.readln4() << std::endl;
+  }
 
-  /*cout << "Hello World! ";
-  cout << "I'm a C++ program";*/
+  std::cout << std::endl;
+  stream.closeAllMappingRelatedObjects();
+
 }
