@@ -24,7 +24,7 @@ bool InputStream::end_of_stream(){
 
 bool InputStream::openAndMapFile(string path, DWORD offsetInTheFile, int numberOfBlock){
   if(!openFile(path)){return false;};
-  if(mappingFile()){return false;}; //Map the file Open with CreateOpen
+  if(!mappingFile()){return false;}; //Map the file Open with CreateOpen
   startMapView = offsetInTheFile; // Starting point of the view
   numberOfBlockMapped = numberOfBlock;
   if(!mapViewLink()){return false;}; //Initialize the pointer to the map file3}
@@ -43,9 +43,8 @@ bool InputStream::openFile(string path){
                           NULL); //no attribute template
 
   //Gestion d erreur
-
-  //Store the file size
-  fileOpenSize = GetFileSize(hfile,NULL);
+ if(hfile == INVALID_HANDLE_VALUE){std::cout << "Error while creating the file" << std::endl; isNormal =false;}
+ else{fileOpenSize = GetFileSize(hfile,NULL);}
 
   return isNormal;
 }
@@ -61,7 +60,7 @@ bool InputStream::mappingFile(){
                                    NULL); //Name of the fileMapping object
 
   if(GetLastError() == ERROR_FILE_INVALID){std::cout<< "Error mapping invalid"<< std::endl; isNormal=false;}
-  else{std::cout << "Error while mapping the file" << std::endl; isNormal =false;}
+  else if(hfileMapping == NULL){std::cout << "Error while mapping the file" << std::endl; isNormal =false;}
 
   return isNormal;
 }
@@ -80,6 +79,8 @@ bool InputStream::mapViewLink(){
   bool isNormal = true;
   DWORD dwFileMapStart =(startMapView/granularity) *granularity; // The offset at which the mapView start in bits
   DWORD dwMapViewSize = (numberOfBlockMapped*granularity); //In bytes !!
+
+  if( (dwFileMapStart + dwMapViewSize) > fileOpenSize){dwMapViewSize = fileOpenSize-dwFileMapStart;}
 
   //Create the FileView
   fileView = MapViewOfFile(hfileMapping, //Handle to the mapping object
@@ -125,10 +126,14 @@ string InputStream::readln4(){
   bool endOfRead = false;
   while(!endOfRead){
 
-    if( offsetBytesCounter+j > numberOfBlockMapped*granularity){
-      startMapView = offsetBytesCounter+j;
+    if( (offsetBytesCounter+j+startMapView) > (fileOpenSize)){ // If the end is reached
+      std::cout << "End of file reached" << std::endl;
+      endOfRead=true;
+    }
+    else if( offsetBytesCounter+j > numberOfBlockMapped*granularity){
+      startMapView += offsetBytesCounter+j;
       closeMapView();
-      mapViewLink();
+      if(!mapViewLink()){endOfRead=true;}
       j=0;
       offsetBytesCounter = 0;
     }
