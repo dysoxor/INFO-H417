@@ -7,7 +7,7 @@ int main()
 {
   string filePath = "C:\\Users\\Asus ROG\\Documents\\ulb\\MA1\\DatabaseProject\\imdb\\aka_name.csv" ;
   InputStream stream;
-  stream.openAndMapFile(filePath,0,1);
+  if(!stream.openAndMapFile(filePath,0,1)){return 1;}; // Error in opening the files
   string text = ""; // Use to concatenate all the lines faster than displaying one by one
   for(int i=0; i<1000; ++i){
     std :: cout << stream.readln4() << std::endl;

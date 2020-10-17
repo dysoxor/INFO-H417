@@ -13,17 +13,28 @@ void InputStream::open(string path){
     //Gérer les exceptions ici
 }
 
-void InputStream::openAndMapFile(string path, DWORD offsetInTheFile, int numberOfBlock){
-  openFile(path);
-  mappingFile(); //Map the file Open with CreateOpen
-  startMapView = offsetInTheFile; // Starting point of the view
-  numberOfBlockMapped = numberOfBlock;
-  mapViewLink(); //Initialize the pointer to the map file3}
+void InputStream::seek(int pos){
+    inputFile.seekg(pos);
 }
 
-void InputStream::openFile(string path){
+bool InputStream::end_of_stream(){
+  return inputFile.eof();
+}
+
+
+bool InputStream::openAndMapFile(string path, DWORD offsetInTheFile, int numberOfBlock){
+  if(!openFile(path)){return false;};
+  if(mappingFile()){return false;}; //Map the file Open with CreateOpen
+  startMapView = offsetInTheFile; // Starting point of the view
+  numberOfBlockMapped = numberOfBlock;
+  if(!mapViewLink()){return false;}; //Initialize the pointer to the map file3}
+  return true;
+}
+
+bool InputStream::openFile(string path){
   // open a file in read only with some flags
- hfile = CreateFile(path.c_str(), //Path of the file
+  bool isNormal = true;
+  hfile = CreateFile(path.c_str(), //Path of the file
                           GENERIC_READ, //open for reading
                           0,            //do not share
                           NULL,         //security by default
@@ -35,6 +46,51 @@ void InputStream::openFile(string path){
 
   //Store the file size
   fileOpenSize = GetFileSize(hfile,NULL);
+
+  return isNormal;
+}
+
+bool InputStream::mappingFile(){
+  //Mapped the file and retrieve the Handler
+  bool isNormal = true;
+  hfileMapping = CreateFileMapping(hfile, //handler of the file to map
+                                   NULL, // Security attribute
+                                   PAGE_READONLY, //Type of protection
+                                   0, // High order Dword size
+                                   0, //Low order Dword size if (0,0) map the file completely
+                                   NULL); //Name of the fileMapping object
+
+  if(GetLastError() == ERROR_FILE_INVALID){std::cout<< "Error mapping invalid"<< std::endl; isNormal=false;}
+  else{std::cout << "Error while mapping the file" << std::endl; isNormal =false;}
+
+  return isNormal;
+}
+
+/*
+  This is where we have to be careful with the size, the MapView is reserved
+  space in the virtual memory of the process and must not be too big. We need
+  to map only the part that we are going to use. (Must respect the syst granularity)
+*/
+bool InputStream::mapViewLink(){
+  /*
+    The offset at which the mapView start,we need to start at a multiple off the
+    granularity to correspond to a memory block. Here we round down the offset to
+    the nearest block
+  */
+  bool isNormal = true;
+  DWORD dwFileMapStart =(startMapView/granularity) *granularity; // The offset at which the mapView start in bits
+  DWORD dwMapViewSize = (numberOfBlockMapped*granularity); //In bytes !!
+
+  //Create the FileView
+  fileView = MapViewOfFile(hfileMapping, //Handle to the mapping object
+                           FILE_MAP_READ, //Protection
+                           0,             //High order 32 bits file offset
+                           dwFileMapStart,           // Low order 32 bits file offset
+                           dwMapViewSize);          // number of bytes to map
+
+  if(fileView == NULL){std::cout << "Error while creating the  view map" << std::endl; isNormal=false;}
+
+  return isNormal;
 }
 
 void InputStream::closeWindowsFile(){
@@ -55,53 +111,6 @@ void InputStream::closeAllMappingRelatedObjects(){
   closeMapView();
   closeMappingFile();
   closeWindowsFile();
-}
-
-void InputStream::mappingFile(){
-  //Mapped the file and retrieve the Handler
-  hfileMapping = CreateFileMapping(hfile, //handler of the file to map
-                                   NULL, // Security attribute
-                                   PAGE_READONLY, //Type of protection
-                                   0, // High order Dword size
-                                   0, //Low order Dword size if (0,0) map the file completely
-                                   NULL); //Name of the fileMapping object
-
-  if(GetLastError() == NO_ERROR){std::cout<< "Mapping create succesfully"<< std::endl;}
-  else if(GetLastError() == ERROR_FILE_INVALID){std::cout<< "Error mapping invalid"<< std::endl;}
-  else{std::cout << "Error while mapping the file" << std::endl;}
-}
-
-/*
-  This is where we have to be careful with the size, the MapView is reserved
-  space in the virtual memory of the process and must not be too big. We need
-  to map only the part that we are going to use. (Must respect the syst granularity)
-*/
-void InputStream::mapViewLink(){
-  /*
-    The offset at which the mapView start,we need to start at a multiple off the
-    granularity to correspond to a memory block. Here we round down the offset to
-    the nearest block
-  */
-  DWORD dwFileMapStart =(startMapView/granularity) *granularity; // The offset at which the mapView start in bits
-  DWORD dwMapViewSize = (numberOfBlockMapped*granularity); //In bytes !!
-
-  //Create the FileView
-  fileView = MapViewOfFile(hfileMapping, //Handle to the mapping object
-                           FILE_MAP_READ, //Protection
-                           0,             //High order 32 bits file offset
-                           dwFileMapStart,           // Low order 32 bits file offset
-                           dwMapViewSize);          // number of bytes to map
-
-  if(fileView != NULL){std::cout << "MapView succesfully create " << std::endl;}
-  else{std::cout << "Error while creating the  view map" << std::endl;}
-}
-
-void InputStream::seek(int pos){
-    inputFile.seekg(pos);
-}
-
-bool InputStream::end_of_stream(){
-  return inputFile.eof();
 }
 
 

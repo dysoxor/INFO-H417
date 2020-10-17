@@ -25,17 +25,17 @@ public:
   void open(string path);
 
  //Method concerning readln4 for the mapping method
-  void openAndMapFile(string path, DWORD offsetInTheFile=0, int numberOfBlock=1);
-  void openFile(string path); //Open the file and store into hfile the link
-  void mappingFile();
-  void mapViewLink();
+  bool openAndMapFile(string path, DWORD offsetInTheFile=0, int numberOfBlock=1);
+  bool openFile(string path); //Open the file and store into hfile the link
+  bool mappingFile();
+  bool mapViewLink();
   void closeWindowsFile();
   void closeMappingFile();
   void closeMapView();
   void closeAllMappingRelatedObjects();
+  string readln4(); //Read the next line via mappingstring readln4(); //Read the next line via mapping
 
   string readln(); // Voir si on envoie pas un parametre pour select le mode de read
-  string readln4(); //Read the next line via mapping
   void seek(int pos);
   bool end_of_stream();
 };
