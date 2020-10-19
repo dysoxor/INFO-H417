@@ -77,8 +77,8 @@ bool InputStream::mapViewLink(){
     the nearest block
   */
   bool isNormal = true;
-  DWORD dwFileMapStart =(startMapView/granularity) *granularity; // The offset at which the mapView start in bits
-  DWORD dwMapViewSize = (numberOfBlockMapped*granularity); //In bytes !!
+  DWORD dwFileMapStart =(startMapView/(granularity)) *(granularity); // The offset at which the mapView start in bits
+  DWORD dwMapViewSize = (numberOfBlockMapped*(granularity)); //In bytes !!
 
   if( (dwFileMapStart + dwMapViewSize) > fileOpenSize){dwMapViewSize = fileOpenSize-dwFileMapStart;}
 
@@ -105,7 +105,7 @@ void InputStream::closeMappingFile(){
 void InputStream::closeMapView(){
   UnmapViewOfFile(fileView);
   //Gestion d erreur
-  std::cout << "MapViewClose" << std::endl;
+  //std::cout << "MapViewClose" << std::endl;
 }
 
 void InputStream::closeAllMappingRelatedObjects(){
@@ -126,12 +126,12 @@ string InputStream::readln4(){
   bool endOfRead = false;
   while(!endOfRead){
 
-    if( (offsetBytesCounter+j+startMapView) > (fileOpenSize)){ // If the end is reached
-      std::cout << "End of file reached" << std::endl;
+    if( ((offsetBytesCounter)+startMapView) >= (fileOpenSize)){ // If the end is reached
       endOfRead=true;
+      line = "";
     }
-    else if( offsetBytesCounter+j > numberOfBlockMapped*granularity){
-      startMapView += offsetBytesCounter+j;
+    else if( (offsetBytesCounter+j) >= (numberOfBlockMapped*(granularity))){
+      startMapView += (offsetBytesCounter+j);
       closeMapView();
       if(!mapViewLink()){endOfRead=true;}
       j=0;
