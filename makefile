@@ -3,7 +3,7 @@ EXEC=main
 
 all: $(EXEC)
 
-main: main.o InputStream.o OutputStream.o
+main: main.o InputStream1.o OutputStream1.o InputStream2.o OutputStream2.o
 	$(CPPFLAG) -o $@ $^
 %.o: %.cpp
 	$(CPPFLAG) -o $@ -c $^
