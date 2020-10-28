@@ -27,7 +27,7 @@ bool InputStream::openAndMapFile(string path, DWORD offsetInTheFile, int numberO
   if(!mappingFile()){return false;}; //Map the file Open with CreateOpen
   startMapView = offsetInTheFile; // Starting point of the view
   numberOfBlockMapped = numberOfBlock;
-  if(!mapViewLink()){return false;}; //Initialize the pointer to the map file3}
+  if(!mapViewLink()){return false;}; //Initialize the pointer to the map file
   return true;
 }
 
@@ -104,8 +104,6 @@ void InputStream::closeMappingFile(){
 }
 void InputStream::closeMapView(){
   UnmapViewOfFile(fileView);
-  //Gestion d erreur
-  //std::cout << "MapViewClose" << std::endl;
 }
 
 void InputStream::closeAllMappingRelatedObjects(){
