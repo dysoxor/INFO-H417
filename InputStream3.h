@@ -28,7 +28,7 @@ public:
     bool close();
     int getIndex();
 
-    void readln();
+    void read();
 };
 
 #endif //PROJECT_INPUTSTREAM_H

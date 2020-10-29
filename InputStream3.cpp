@@ -32,7 +32,7 @@ int InputStream3::getIndex()
   return index;
 }
 
-void InputStream3::readln()
+void InputStream3::read()
 {
   do
   {

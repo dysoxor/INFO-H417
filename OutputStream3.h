@@ -24,7 +24,7 @@ public:
     bool create(string path);
     void close();
 
-    void writeln(string line);
+    void write(string line);
 };
 
 #endif //PROJECT_OUTPUTSTREAM_H

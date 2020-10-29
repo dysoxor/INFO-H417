@@ -11,19 +11,18 @@ bool OutputStream3::create(string path)
     return true;
 }
 
-void OutputStream3::writeln(string text)
+void OutputStream3::write(string text)
 {
-    text += '\n';
     index = 0;
     int last = BUFFER_SIZE - 1;
-    while (index < text.size() - 1)
+    while (index < text.size())
     {
         do
         {
             buffer[index % BUFFER_SIZE] = text[index];
             index++;
-        } while (index % BUFFER_SIZE != 0 && index < text.size() - 1);
-        if (index == text.size() - 1 && index % BUFFER_SIZE != 0)
+        } while (index % BUFFER_SIZE != 0 && index < text.size());
+        if (index == text.size() && index % BUFFER_SIZE != 0)
         {
             last = (index % BUFFER_SIZE);
         }

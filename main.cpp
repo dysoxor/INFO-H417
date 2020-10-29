@@ -12,7 +12,7 @@ int main(int argc, char **argv)
   {
     return 0;
   }
-  is.readln();
+  is.read();
 
   is.close();
 
@@ -21,6 +21,6 @@ int main(int argc, char **argv)
   {
     return 0;
   }
-  os.writeln("bonsoir je suis Andrey et je fais de superbes projets de database yeay, alo? je suis dans un tunnel");
+  os.write("bonsoir je suis Andrey et je fais de superbes projets de database yeay, alo? je suis dans un tunnel.....");
   os.close();
 }
