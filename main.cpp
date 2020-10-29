@@ -6,7 +6,7 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-  /*InputStream3 is;
+  InputStream3 is;
   string path = "C:\\Users\\Andre\\Documents\\imdb\\movie_link.csv";
   if (!is.open(path))
   {
@@ -14,7 +14,7 @@ int main(int argc, char **argv)
   }
   is.readln();
 
-  is.close();*/
+  is.close();
 
   OutputStream3 os;
   if (!os.create("testF2.txt"))
