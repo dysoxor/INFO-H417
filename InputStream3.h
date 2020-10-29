@@ -3,24 +3,32 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <direct.h>
+#include <io.h>
+#include <string.h>
+#include <fcntl.h>
 #include <string>
-
-#define BUFFER_SIZE 10
+#include <iostream>
 
 using namespace std;
 
-class InputStream2
+#define BUFFER_SIZE 1024
+
+class InputStream3
 {
 private:
-    FILE *fd;
+    int fd;
+    char *buffer = new char[BUFFER_SIZE * sizeof(char)];
+    int index;
 
 public:
     bool open(string path);
     void seek(int pos);
     bool end_of_stream();
     bool close();
+    int getIndex();
 
-    string readln();
+    void readln();
 };
 
 #endif //PROJECT_INPUTSTREAM_H
