@@ -7,7 +7,8 @@ bool InputStream3::open(string path)
     perror("Open failed");
     return false;
   }
-  index = 0;
+  size = 0;
+  position = 0;
   return true;
 }
 
@@ -27,20 +28,26 @@ bool InputStream3::close()
   return _close(fd);
 }
 
-int InputStream3::getIndex()
+string InputStream3::readln()
 {
-  return index;
-}
-
-void InputStream3::read()
-{
+  string line = "";
   do
   {
-    index = _read(fd, buffer, BUFFER_SIZE * sizeof(char));
-    for (int i = 0; i < index; i++)
+    if (position >= size - 1 || size == 0)
     {
-      cout << buffer[i];
+      size = _read(fd, buffer, BUFFER_SIZE_3 * sizeof(char));
+      position = 0;
     }
-  } while (index == BUFFER_SIZE);
+    else
+    {
+      position++;
+    }
+    while (position < size && buffer[position] != '\n')
+    {
+      line += buffer[position];
+      position++;
+    }
+  } while (position == BUFFER_SIZE_3 || buffer[position] != '\n');
   //result += temp;
+  return line;
 }

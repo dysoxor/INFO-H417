@@ -11,20 +11,23 @@ bool OutputStream3::create(string path)
     return true;
 }
 
-void OutputStream3::write(string text)
+void OutputStream3::writeln(string text)
 {
+    text += '\n';
     index = 0;
-    int last = BUFFER_SIZE - 1;
+    int last = BUFFER_SIZE_3 - 1;
+    off_t end_position = lseek(fd, 0, SEEK_END);
+    lseek(fd, end_position, SEEK_SET);
     while (index < text.size())
     {
         do
         {
-            buffer[index % BUFFER_SIZE] = text[index];
+            buffer[index % BUFFER_SIZE_3] = text[index];
             index++;
-        } while (index % BUFFER_SIZE != 0 && index < text.size());
-        if (index == text.size() && index % BUFFER_SIZE != 0)
+        } while (index % BUFFER_SIZE_3 != 0 && index < text.size());
+        if (index == text.size() && index % BUFFER_SIZE_3 != 0)
         {
-            last = (index % BUFFER_SIZE);
+            last = (index % BUFFER_SIZE_3);
         }
 
         _write(fd, &buffer[0], last * sizeof(char));

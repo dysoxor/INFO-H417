@@ -12,23 +12,23 @@
 
 using namespace std;
 
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE_3 20
 
 class InputStream3
 {
 private:
     int fd;
-    char *buffer = new char[BUFFER_SIZE * sizeof(char)];
-    int index;
+    char *buffer = new char[BUFFER_SIZE_3 * sizeof(char)];
+    int position;
+    int size;
 
 public:
     bool open(string path);
     void seek(int pos);
     bool end_of_stream();
     bool close();
-    int getIndex();
 
-    void read();
+    string readln();
 };
 
 #endif //PROJECT_INPUTSTREAM_H

@@ -11,20 +11,20 @@
 
 using namespace std;
 
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE_3 20
 
 class OutputStream3
 {
 private:
     int fd;
-    char *buffer = new char[BUFFER_SIZE * sizeof(char)];
+    char *buffer = new char[BUFFER_SIZE_3 * sizeof(char)];
     int index;
 
 public:
     bool create(string path);
     void close();
 
-    void write(string line);
+    void writeln(string text);
 };
 
 #endif //PROJECT_OUTPUTSTREAM_H
