@@ -32,15 +32,19 @@ int InputStream3::getIndex()
   return index;
 }
 
+string InputStream3::readln() {
+  return "";
+}
+
 void InputStream3::read()
 {
   do
   {
-    index = _read(fd, buffer, BUFFER_SIZE * sizeof(char));
+    index = _read(fd, buffer, BUFFER_SIZE_IS_3 * sizeof(char));
     for (int i = 0; i < index; i++)
     {
       cout << buffer[i];
     }
-  } while (index == BUFFER_SIZE);
+  } while (index == BUFFER_SIZE_IS_3);
   //result += temp;
 }

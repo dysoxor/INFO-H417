@@ -9,7 +9,7 @@ bool InputStream2::open(string path){
 }
 
 void InputStream2::seek(int pos){
-  fseek(fd,pos, SEEK_SET);
+  fseek(fd, pos, SEEK_SET);
 }
 
 bool InputStream2::end_of_stream(){
@@ -21,16 +21,16 @@ bool InputStream2::close(){
 }
 
 string InputStream2::readln(){
- 
- char buffer[BUFFER_SIZE];
+ char buffer[BUFFER_SIZE_IS_2];
  string result = "";
  string tempRes = "";
  do {
-   if (fgets(buffer, BUFFER_SIZE*sizeof(char), fd) == NULL){
+   if (fgets(buffer, BUFFER_SIZE_IS_2+1, fd) == NULL){
      break;
    }
    tempRes = buffer;
    result += tempRes;
- } while (tempRes.size() == BUFFER_SIZE);
+ } while (tempRes.size() == BUFFER_SIZE_IS_2 && buffer[BUFFER_SIZE_IS_2-1] != '\n');
+ result = result.substr(0, result.size()-1);
  return result;
 }

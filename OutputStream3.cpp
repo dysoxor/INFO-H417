@@ -14,21 +14,25 @@ bool OutputStream3::create(string path)
 void OutputStream3::write(string text)
 {
     index = 0;
-    int last = BUFFER_SIZE - 1;
+    int last = BUFFER_SIZE_OS_3 - 1;
     while (index < text.size())
     {
         do
         {
-            buffer[index % BUFFER_SIZE] = text[index];
+            buffer[index % BUFFER_SIZE_OS_3] = text[index];
             index++;
-        } while (index % BUFFER_SIZE != 0 && index < text.size());
-        if (index == text.size() && index % BUFFER_SIZE != 0)
+        } while (index % BUFFER_SIZE_OS_3 != 0 && index < text.size());
+        if (index == text.size() && index % BUFFER_SIZE_OS_3 != 0)
         {
-            last = (index % BUFFER_SIZE);
+            last = (index % BUFFER_SIZE_OS_3);
         }
 
         _write(fd, &buffer[0], last * sizeof(char));
     }
+}
+
+void OutputStream3::writeln(string line) {
+
 }
 
 void OutputStream3::close()

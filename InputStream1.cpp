@@ -1,5 +1,7 @@
 #include "InputStream1.h"
 
+#include <iostream>
+
 bool InputStream1::open(string path){
   if ((fd = _open(path.c_str(), _O_RDONLY)) == -1){
     perror("Open failed");
@@ -23,10 +25,10 @@ bool InputStream1::close(){
 string InputStream1::readln(){
  char buffer;
  string result = "";
- int numread;
- do {
-   numread = _read (fd, &buffer, sizeof(char));
-   result += buffer;
- } while (buffer != '\n');
+ _read (fd, &buffer, sizeof(char));
+ while (buffer != '\n') {
+    result += buffer;
+    _read (fd, &buffer, sizeof(char));
+ }
  return result;
 }

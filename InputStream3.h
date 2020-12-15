@@ -1,5 +1,7 @@
-#ifndef PROJECT_INPUTSTREAM_H
-#define PROJECT_INPUTSTREAM_H
+#ifndef PROJECT_INPUTSTREAM3_H
+#define PROJECT_INPUTSTREAM3_H
+
+#include "InputStream.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,28 +9,29 @@
 #include <io.h>
 #include <string.h>
 #include <fcntl.h>
-#include <string>
 #include <iostream>
+
 
 using namespace std;
 
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE_IS_3 1024
 
-class InputStream3
+class InputStream3 : public InputStream
 {
 private:
     int fd;
-    char *buffer = new char[BUFFER_SIZE * sizeof(char)];
+    char *buffer = new char[BUFFER_SIZE_IS_3 * sizeof(char)];
     int index;
+    int getIndex();
+    void read();
 
 public:
     bool open(string path);
     void seek(int pos);
     bool end_of_stream();
     bool close();
-    int getIndex();
 
-    void read();
+    string readln();
 };
 
-#endif //PROJECT_INPUTSTREAM_H
+#endif //PROJECT_INPUTSTREAM3_H

@@ -1,15 +1,18 @@
-#ifndef PROJECT_INPUTSTREAM_H
-#define PROJECT_INPUTSTREAM_H
+#ifndef PROJECT_INPUTSTREAM2_H
+#define PROJECT_INPUTSTREAM2_H
+
+#include "InputStream.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string>
 
-#define BUFFER_SIZE 10
+
+
+#define BUFFER_SIZE_IS_2 10
 
 using namespace std;
 
-class InputStream2
+class InputStream2 : public InputStream
 {
 private:
     FILE *fd;
@@ -23,4 +26,4 @@ public:
     string readln();
 };
 
-#endif //PROJECT_INPUTSTREAM_H
+#endif //PROJECT_INPUTSTREAM2_H
