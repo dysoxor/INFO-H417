@@ -11,10 +11,13 @@ bool OutputStream3::create(string path)
     return true;
 }
 
-void OutputStream3::write(string text)
+void OutputStream3::writeln(string text)
 {
+    text += '\n';
     index = 0;
     int last = BUFFER_SIZE_OS_3 - 1;
+    off_t end_position = lseek(fd, 0, SEEK_END);
+    lseek(fd, end_position, SEEK_SET);
     while (index < text.size())
     {
         do
@@ -29,10 +32,6 @@ void OutputStream3::write(string text)
 
         _write(fd, &buffer[0], last * sizeof(char));
     }
-}
-
-void OutputStream3::writeln(string line) {
-
 }
 
 void OutputStream3::close()

@@ -79,13 +79,16 @@ void rrmerge(string fileList[], int k, int inputStreamImplementation, int output
     if (!os->create(outputFile)) {
         cout << "Error create" << endl;
     }
-    
+    string line;
     while (areInputStreamsOpen(is, k)) {
         for (int i = 0; i < k ; i++){
             if (is[i]->end_of_stream()) {
                 continue;
             }
-            os->writeln(is[i]->readln());
+            line = is[i]->readln();
+            if (line.size() > 0) {
+                os->writeln(line);
+            }
         }
     }
     for (int i = 0; i < k; i++){
@@ -105,7 +108,7 @@ int main(int argc, char **argv){
     }
 
     /* Number of IO implementations */
-    int numberOfImplementations = 2;
+    int numberOfImplementations = 3;
 
     /* Setup times */
     chrono::time_point<chrono::system_clock> startTime;
@@ -125,7 +128,7 @@ int main(int argc, char **argv){
             endTime = chrono::system_clock::now();
             resultTimes[timeIndex] = (double)(chrono::duration_cast<chrono::microseconds>(endTime-startTime).count())/1000;
             timeIndex++;
-            cout << (int)100*((double)timeIndex/numberOfTimes) << "..";
+            cout << (100*timeIndex)/numberOfTimes << "..";
         }
     }
     cout <<"End" << endl;

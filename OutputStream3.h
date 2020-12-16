@@ -14,7 +14,7 @@
 
 using namespace std;
 
-#define BUFFER_SIZE_OS_3 1024
+#define BUFFER_SIZE_OS_3 20
 
 class OutputStream3 : public OutputStream
 {

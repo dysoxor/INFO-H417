@@ -24,14 +24,14 @@
 9,features
 9,editor
 10,featured in
-10,miscellaneous crew
+10,miscellaneous crw
 11,spin off from
-11,production designer
+11,production desiger
 12,spin off
 12,guest
 13,version of
 14,similar to
 15,edited into
 16,edited from
-17,alternate language version of
+17,alternate languae version of
 18,unknown link

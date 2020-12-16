@@ -21,9 +21,8 @@ class InputStream3 : public InputStream
 private:
     int fd;
     char *buffer = new char[BUFFER_SIZE_IS_3 * sizeof(char)];
-    int index;
-    int getIndex();
-    void read();
+    int position;
+    int size;
 
 public:
     bool open(string path);

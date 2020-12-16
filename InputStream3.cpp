@@ -7,13 +7,15 @@ bool InputStream3::open(string path)
     perror("Open failed");
     return false;
   }
-  index = 0;
+  size = 0;
+  position = 0;
   return true;
 }
 
 void InputStream3::seek(int pos)
 {
   lseek(fd, pos, SEEK_SET);
+  size = 0;
 }
 
 bool InputStream3::end_of_stream()
@@ -27,24 +29,31 @@ bool InputStream3::close()
   return _close(fd);
 }
 
-int InputStream3::getIndex()
+string InputStream3::readln()
 {
-  return index;
-}
-
-string InputStream3::readln() {
-  return "";
-}
-
-void InputStream3::read()
-{
+  string line = "";
+  bool endline = false;
   do
   {
-    index = _read(fd, buffer, BUFFER_SIZE_IS_3 * sizeof(char));
-    for (int i = 0; i < index; i++)
+    if (position >= size - 1 || size == 0)
     {
-      cout << buffer[i];
+      size = _read(fd, buffer, BUFFER_SIZE_IS_3 * sizeof(char));
+      position = 0;
     }
-  } while (index == BUFFER_SIZE_IS_3);
+    do
+    {
+      if (position < size)
+      {
+        line += buffer[position];
+        position++;
+        if (buffer[position] == '\n')
+        {
+          endline = true;
+        }
+      }
+
+    } while (position < size && !endline);
+  } while (position == BUFFER_SIZE_IS_3 || buffer[position] != '\n');
   //result += temp;
+  return line;
 }
