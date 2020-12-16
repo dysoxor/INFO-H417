@@ -48,7 +48,7 @@ string InputStream3::readln()
         position++;
         if (buffer[position] == '\n')
         {
-          endline = true
+          endline = true;
         }
       }
 
