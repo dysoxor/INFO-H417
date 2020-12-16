@@ -12,7 +12,7 @@ bool InputStream4::open(string path){
     return openAndMapFile(path);
 }
 
-void InputStream4::seek(long long int pos){
+void InputStream4::seek(int pos){
   startMapView = pos ;
   long long int multipleGranularity = (startMapView/(granularity)) * granularity;
   offsetBytesCounter = startMapView - multipleGranularity;
@@ -111,22 +111,23 @@ bool InputStream4::mapViewLink(){
   return isNormal;
 }
 
-void InputStream4::closeWindowsFile(){
-  if(!CloseHandle(hfile)){std::cout << "Error in closing the file" <<std::endl;}
+bool InputStream4::closeWindowsFile(){
+  return CloseHandle(hfile);
 }
 
-void InputStream4::closeMappingFile(){
-  if(!CloseHandle(hfileMapping)){std::cout << "Error in closing the mapping handle" << std::endl;}
+bool InputStream4::closeMappingFile(){
+  return CloseHandle(hfileMapping);
 }
 
 void InputStream4::closeMapView(){
   UnmapViewOfFile(fileView);
 }
 
-void InputStream4::close(){
+bool InputStream4::close(){
   closeMapView();
-  closeMappingFile();
-  closeWindowsFile();
+  if(!closeMappingFile()){return false;}
+  if(closeWindowsFile()){return false;}
+  return true;
 }
 
 

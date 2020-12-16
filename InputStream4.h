@@ -26,16 +26,16 @@ private:
    bool getTheFileSize(); //Get the file size in the correct type
    bool mappingFile();
    bool mapViewLink();
-   void closeWindowsFile();
-   void closeMappingFile();
+   bool closeWindowsFile();
+   bool closeMappingFile();
    void closeMapView();
 
 public:
   InputStream4(); // Constructor
   bool open(string path);
-  void close(); //Close all object related to the stream
+  bool close(); //Close all object related to the stream
   string readln(); //Read the next line via mappingstring readln4(); //Read the next line via mapping
-  void seek(long long int pos);
+  void seek(int pos);
   bool end_of_stream();
 };
 
