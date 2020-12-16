@@ -16,7 +16,7 @@ class InputStream2 : public InputStream
 {
 private:
     FILE *fd;
-
+    char buffer[BUFFER_SIZE_IS_2];
 public:
     bool open(string path);
     void seek(int pos);
