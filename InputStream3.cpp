@@ -39,17 +39,15 @@ string InputStream3::readln()
       size = _read(fd, buffer, BUFFER_SIZE_3 * sizeof(char));
       position = 0;
     }
-    else
+    do
     {
-      position++;
-    }
-    while (position < size && buffer[position] != '\n')
-    {
-      line += buffer[position];
-      position++;
-    }
-    if (buffer[position] == '\n')
-      line += '\n';
+      if (position < size)
+      {
+        line += buffer[position];
+        position++;
+      }
+
+    } while (position < size && buffer[position] != '\n');
   } while (position == BUFFER_SIZE_3 || buffer[position] != '\n');
   //result += temp;
   return line;
