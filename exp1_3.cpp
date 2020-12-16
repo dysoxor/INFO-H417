@@ -93,8 +93,10 @@ void rrmerge(string fileList[], int k, int inputStreamImplementation, int output
     }
     for (int i = 0; i < k; i++){
         is[i]->close();
+        delete is[i];
     }
     os->close();
+    delete os;
 };
 
 
