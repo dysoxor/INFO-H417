@@ -48,6 +48,8 @@ string InputStream3::readln()
       line += buffer[position];
       position++;
     }
+    if (buffer[position] == '\n')
+      line += '\n';
   } while (position == BUFFER_SIZE_3 || buffer[position] != '\n');
   //result += temp;
   return line;
