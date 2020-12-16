@@ -1,34 +1,33 @@
-#include "experiment1.h"
+#include "InputStream1.h"
+#include "InputStream2.h"
+#include "InputStream3.h"
+#include "InputStream4.h"
+#include <iostream>
+using namespace std;
 
-void Experiment1::length1(string f){
+void length1(string f){
   long long int sum = 0;
   InputStream1 is1;
-  int counter = 0;
   string line = "";
   if(is1.open(f)){
     while (!is1.end_of_stream()) {
       line = is1.readln();
       sum += line.length();
-      counter +=1;
-      if(counter < 10 ) {cout << " Lines :" << counter << " : " << line  << endl;}
     }
     is1.close();
-    cout << " Length1 :" << sum << endl;
+    cout << " Length1 :" << sum <<  endl;
   }
   else{std::cout << "Error couldn t open the file (length1) : " << f << endl; return;}
 }
 
-void Experiment1::length2(string f){
+void length2(string f){
   long long int sum = 0;
   InputStream2 is2;
-  int counter = 0;
   string line = "";
   if(is2.open(f)){
     while (!is2.end_of_stream()) {
       line = is2.readln();
       sum += line.length();
-      counter +=1;
-      if(counter < 10 ) {cout << " Lines :" << counter << " : " << line  << endl;}
     }
     is2.close();
     cout << " Length2 :" << sum <<  endl;
@@ -36,17 +35,14 @@ void Experiment1::length2(string f){
   else{std::cout << "Error couldn t open the file (length2) : " << f << endl;}
 }
 
-void Experiment1::length3(string f){
+void length3(string f){
   long long int sum = 0;
   InputStream3 is3;
-  int counter = 0;
   string line = "";
   if(is3.open(f)){
     while (!is3.end_of_stream()) {
       line = is3.readln();
       sum += line.length();
-      counter +=1;
-      if(counter < 10 ) {cout << " Lines :" << counter << " : " << line  << endl;}
     }
     is3.close();
     cout << " Length3 :" << sum << endl;
@@ -54,18 +50,28 @@ void Experiment1::length3(string f){
   else{std::cout << "Error couldn t open the file (length3) : " << f << endl;}
 }
 
-void Experiment1::length4(string f){
+void length4(string f){
   long long int sum = 0;
   InputStream4 is4;
-  int counter = 0;
   string line = "";
-  is4.open(f);
+  if(is4.open(f)){
   while (!is4.end_of_stream()) {
     line = is4.readln();
     sum += line.length();
-    counter +=1;
-    if(counter < 10 ) {cout << " Lines :" << counter << " : " << line  << endl;}
   }
     is4.close();
     cout << " Length4 :" << sum << endl;
+  }
+  else{std::cout << "Error couldn t open the file (length4) : " << f << endl;}
+}
+
+int main(int argc, char **argv)
+{
+  //string f = "C:\\Users\\Asus ROG\\Documents\\ulb\\MA1\\DatabaseProject\\imdb\\keyword.csv";
+  string f = "C:\\Users\\Asus ROG\\Documents\\ulb\\MA1\\DatabaseProject\\imdb\\complete_cast.csv";
+  //string f = "test.txt";
+  length1(f);
+  length2(f);
+  length3(f);
+  length4(f);
 }

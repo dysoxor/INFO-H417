@@ -8,7 +8,7 @@
 #include <math.h>
 using namespace std;
 
-class InputStream4 {
+class InputStream4  : public InputStream{
 private:
   ifstream inputFile;
   HANDLE hfile;
@@ -32,7 +32,7 @@ private:
 
 public:
   InputStream4(); // Constructor
-  void open(string path);
+  bool open(string path);
   void close(); //Close all object related to the stream
   string readln(); //Read the next line via mappingstring readln4(); //Read the next line via mapping
   void seek(long long int pos);

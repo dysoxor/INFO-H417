@@ -22,8 +22,6 @@ bool InputStream2::close(){
 }
 
 string InputStream2::readln(){
-
- char buffer[BUFFER_SIZE];
  string result = "";
  string tempRes = "";
  do {

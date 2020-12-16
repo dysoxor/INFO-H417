@@ -8,8 +8,8 @@ InputStream4::InputStream4(){
 
 }
 
-void InputStream4::open(string path){
-    if(!openAndMapFile(path)){std::cout << "Error while opening the file : " << path << '\n';}
+bool InputStream4::open(string path){
+    return openAndMapFile(path);
 }
 
 void InputStream4::seek(long long int pos){
