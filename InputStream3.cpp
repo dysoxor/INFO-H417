@@ -32,6 +32,7 @@ bool InputStream3::close()
 string InputStream3::readln()
 {
   string line = "";
+  bool endline = false;
   do
   {
     if (position >= size - 1 || size == 0)
@@ -47,11 +48,11 @@ string InputStream3::readln()
         position++;
         if (buffer[position] == '\n')
         {
-          break;
+          endline = true
         }
       }
 
-    } while (position < size);
+    } while (position < size && !endline);
   } while (position == BUFFER_SIZE_3 || buffer[position] != '\n');
   //result += temp;
   return line;
