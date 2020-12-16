@@ -13,6 +13,7 @@ void length1(string f){
     while (!is1.end_of_stream()) {
       line = is1.readln();
       sum += line.length();
+      
     }
     is1.close();
     cout << " Length1 :" << sum <<  endl;
