@@ -38,8 +38,8 @@ string InputStream3::readln()
   {
     if (position >= size - 1 || size == 0)
     {
-      seek(offset * BUFFER_SIZE_3);
-      size = _read(fd, buffer, BUFFER_SIZE_3 * sizeof(char));
+      seek(offset * BUFFER_SIZE_IS_3);
+      size = _read(fd, buffer, BUFFER_SIZE_IS_3 * sizeof(char));
       offset++;
       position = 0;
     }
