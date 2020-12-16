@@ -23,6 +23,7 @@ private:
     char *buffer = new char[BUFFER_SIZE_IS_3 * sizeof(char)];
     int position;
     int size;
+    int offset;
 
 public:
     bool open(string path);

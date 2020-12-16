@@ -9,6 +9,7 @@ bool InputStream3::open(string path)
   }
   size = 0;
   position = 0;
+  offset = 0;
   return true;
 }
 
@@ -37,19 +38,22 @@ string InputStream3::readln()
   {
     if (position >= size - 1 || size == 0)
     {
+      seek(offset * BUFFER_SIZE_IS_3);
       size = _read(fd, buffer, BUFFER_SIZE_IS_3 * sizeof(char));
+      offset++;
       position = 0;
     }
     while (position < size && !endline)
     {
-      if (position < size)
+      if (buffer[position] != '\n')
       {
         line += buffer[position];
         position++;
-        if (buffer[position] == '\n')
-        {
-          endline = true;
-        }
+      }
+      else
+      {
+        endline = true;
+        position++;
       }
     }
   } while (position == BUFFER_SIZE_IS_3 && !endline);
