@@ -15,6 +15,7 @@ bool InputStream3::open(string path)
 void InputStream3::seek(int pos)
 {
   lseek(fd, pos, SEEK_SET);
+  size = 0;
 }
 
 bool InputStream3::end_of_stream()
