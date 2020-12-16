@@ -3,7 +3,7 @@
 
 bool OutputStream3::create(string path)
 {
-    if ((fd = _open(path.c_str(), _O_RDWR | _O_CREAT)) < 0)
+    if ((fd = _open(path.c_str(), _O_RDWR | _O_CREAT | _O_TRUNC)) < 0)
     {
         perror("Open failed");
         return false;
@@ -15,19 +15,19 @@ void OutputStream3::writeln(string text)
 {
     text += '\n';
     index = 0;
-    int last = BUFFER_SIZE_3 - 1;
+    int last = BUFFER_SIZE_OS_3 - 1;
     off_t end_position = lseek(fd, 0, SEEK_END);
     lseek(fd, end_position, SEEK_SET);
     while (index < text.size())
     {
         do
         {
-            buffer[index % BUFFER_SIZE_3] = text[index];
+            buffer[index % BUFFER_SIZE_OS_3] = text[index];
             index++;
-        } while (index % BUFFER_SIZE_3 != 0 && index < text.size());
-        if (index == text.size() && index % BUFFER_SIZE_3 != 0)
+        } while (index % BUFFER_SIZE_OS_3 != 0 && index < text.size());
+        if (index == text.size() && index % BUFFER_SIZE_OS_3 != 0)
         {
-            last = (index % BUFFER_SIZE_3);
+            last = (index % BUFFER_SIZE_OS_3);
         }
 
         _write(fd, &buffer[0], last * sizeof(char));

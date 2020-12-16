@@ -1,24 +1,26 @@
 #ifndef PROJECT_INPUTSTREAM3_H
 #define PROJECT_INPUTSTREAM3_H
 
+#include "InputStream.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <direct.h>
 #include <io.h>
 #include <string.h>
 #include <fcntl.h>
-#include <string>
 #include <iostream>
+
 
 using namespace std;
 
-#define BUFFER_SIZE_3 20
+#define BUFFER_SIZE_IS_3 1024
 
-class InputStream3
+class InputStream3 : public InputStream
 {
 private:
     int fd;
-    char *buffer = new char[BUFFER_SIZE_3 * sizeof(char)];
+    char *buffer = new char[BUFFER_SIZE_IS_3 * sizeof(char)];
     int position;
     int size;
 
