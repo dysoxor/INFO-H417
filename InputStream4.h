@@ -8,7 +8,7 @@
 #include <math.h>
 using namespace std;
 
-class InputStream4 : public InputStream{
+class InputStream4 {
 private:
   ifstream inputFile;
   HANDLE hfile;
