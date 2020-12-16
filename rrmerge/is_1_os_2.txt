@@ -1,0 +1,37 @@
+1,movie
+1,follows
+1,actor
+2,tv series
+2,followed by
+2,actress
+3,tv movie
+3,remake of
+3,producer
+4,video movie
+4,remade as
+4,writer
+5,tv mini series
+5,references
+5,cinematographer
+6,video game
+6,referenced in
+6,composer
+7,episode
+7,spoofs
+7,costume designer
+8,spoofed in
+8,director
+9,features
+9,editor
+10,featured in
+10,miscellaneous crew
+11,spin off from
+11,production designer
+12,spin off
+12,guest
+13,version of
+14,similar to
+15,edited into
+16,edited from
+17,alternate language version of
+18,unknown link

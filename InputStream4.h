@@ -1,14 +1,14 @@
 #ifndef PROJECT_INPUTSTREAM4_H
 #define PROJECT_INPUTSTREAM4_H
 
+#include "InputStream.h"
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <windows.h>
 #include <math.h>
 using namespace std;
 
-class InputStream4{
+class InputStream4 : public InputStream{
 private:
   ifstream inputFile;
   HANDLE hfile;
