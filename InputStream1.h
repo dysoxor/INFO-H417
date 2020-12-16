@@ -1,5 +1,7 @@
-#ifndef PROJECT_INPUTSTREAM_H
-#define PROJECT_INPUTSTREAM_H
+#ifndef PROJECT_INPUTSTREAM1_H
+#define PROJECT_INPUTSTREAM1_H
+
+#include "InputStream.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,11 +9,11 @@
 #include <io.h>
 #include <string.h>
 #include <fcntl.h>
-#include <string>
+
 
 using namespace std;
 
-class InputStream1
+class InputStream1 : public InputStream
 {
 private:
     int fd;
@@ -28,4 +30,4 @@ public:
 
 
 
-#endif //PROJECT_INPUTSTREAM_H
+#endif //PROJECT_INPUTSTREAM1_H

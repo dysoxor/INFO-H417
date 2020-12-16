@@ -1,16 +1,16 @@
 #ifndef PROJECT_OUTPUTSTREAM4_H
 #define PROJECT_OUTPUTSTREAM4_H
 
+#include "OutputStream.h"
 
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <windows.h>
 #include <cstdlib>
 #include <math.h>
 using namespace std;
 
-class OutputStream4{
+class OutputStream4 {
 private:
   HANDLE hfile = NULL;
   HANDLE hfileMapping;

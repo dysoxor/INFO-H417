@@ -56,7 +56,7 @@ string InputStream3::readln()
         position++;
       }
     }
-  } while (position == BUFFER_SIZE_3 && !endline);
+  } while (position == BUFFER_SIZE_IS_3 && !endline);
   //result += temp;
   return line;
 }
