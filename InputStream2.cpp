@@ -1,5 +1,6 @@
 #include "InputStream2.h"
 
+
 bool InputStream2::open(string path){
   if ((fd = fopen(path.c_str(), "r")) == NULL){
     perror("Open failed");
@@ -21,7 +22,7 @@ bool InputStream2::close(){
 }
 
 string InputStream2::readln(){
- 
+
  char buffer[BUFFER_SIZE];
  string result = "";
  string tempRes = "";

@@ -1,5 +1,5 @@
-#ifndef PROJECT_INPUTSTREAM_H
-#define PROJECT_INPUTSTREAM_H
+#ifndef PROJECT_INPUTSTREAM1_H
+#define PROJECT_INPUTSTREAM1_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,4 +28,4 @@ public:
 
 
 
-#endif //PROJECT_INPUTSTREAM_H
+#endif //PROJECT_INPUTSTREAM1s_H
