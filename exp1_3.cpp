@@ -4,6 +4,8 @@
 #include "OutputStream2.h"
 #include "InputStream3.h"
 #include "OutputStream3.h"
+#include "InputStream4.h"
+#include "OutputStream4.h"
 
 #include <chrono>
 
@@ -31,6 +33,9 @@ OutputStream* getOutputStream(int implementation) {
         break;
     case 3:
         result = new OutputStream3();
+        break;
+    case 4:
+        result = new OutputStream4();
         break;
     
     default:
@@ -62,7 +67,12 @@ void getInputStreams(InputStream** isList, int implementation, string fileList[]
             isList[i]->open(fileList[i]);
         }
         break;
-    
+    case 4:
+        for (int i = 0; i < length; i++) {
+            isList[i] = new InputStream4();
+            isList[i]->open(fileList[i]);
+        }
+        break;    
     default:
         break;
     }
@@ -110,25 +120,26 @@ int main(int argc, char **argv){
     }
 
     /* Number of IO implementations */
-    int numberOfImplementations = 3;
+    int numberOfInputImplementations = 4;
+    int numberOfOutputImplementations = 3;
 
     /* Setup times */
     chrono::time_point<chrono::system_clock> startTime;
     chrono::time_point<chrono::system_clock> endTime;
-    int numberOfTimes = numberOfImplementations*numberOfImplementations;
+    int numberOfTimes = numberOfInputImplementations*numberOfOutputImplementations;
     double resultTimes[numberOfTimes];
     int timeIndex = 0;
     string path;
 
     cout << "Start..0.." ;
     
-    for (int i = 1; i <= numberOfImplementations; i++) {
-        for (int j = 1; j <= numberOfImplementations; j++) {
+    for (int i = 1; i <= numberOfInputImplementations; i++) {
+        for (int j = 1; j <= numberOfOutputImplementations; j++) {
             path = "rrmerge/is_"+to_string(i)+"_os_"+to_string(j)+".txt";
             startTime = chrono::system_clock::now();
             rrmerge(fileList, numberOfFiles, i, j, path);
             endTime = chrono::system_clock::now();
-            resultTimes[timeIndex] = (double)(chrono::duration_cast<chrono::microseconds>(endTime-startTime).count())/1000;
+            resultTimes[timeIndex] = ((double)(chrono::duration_cast<chrono::nanoseconds>(endTime-startTime).count()))/1000000;
             timeIndex++;
             cout << (100*timeIndex)/numberOfTimes << "..";
         }
@@ -137,8 +148,8 @@ int main(int argc, char **argv){
 
     timeIndex = 0;
 
-    for (int i = 1; i <= numberOfImplementations; i++) {
-        for (int j = 1; j <= numberOfImplementations; j++) {
+    for (int i = 1; i <= numberOfInputImplementations; i++) {
+        for (int j = 1; j <= numberOfOutputImplementations; j++) {
             cout << "IS : " << i << ", OS : " << j << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
             timeIndex++;
         }
