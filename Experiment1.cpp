@@ -119,11 +119,12 @@ void length3_4(string f, int numberOfTimes, string resultStreamPath){
 int main(int argc, char **argv)
 {
   //string file = "complete_cast";
-  string file = "keyword";
+  string file = "aka_name";
+  //string file = "keyword";
   //string file = "";
   string f = "C:\\Users\\Asus ROG\\Documents\\ulb\\MA1\\DatabaseProject\\imdb\\"+file+".csv";
-  string resultFile = "result\\" + file + "_resultExp1.txt";
-  unsigned int numberOfRun = 3;
-  length0(f,numberOfRun,resultFile);
-  //length3_4(f,numberOfRun,resultFile);
+  string resultFile = "result\\" + file + "_resultExp1_length3_4.txt";
+  unsigned int numberOfRun = 4;
+  //length0(f,numberOfRun,resultFile);
+  length3_4(f,numberOfRun,resultFile);
 }
