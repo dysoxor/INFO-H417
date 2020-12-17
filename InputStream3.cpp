@@ -1,5 +1,9 @@
 #include "InputStream3.h"
 
+InputStream3::InputStream3() {
+   buffer = new char[BUFFER_SIZE_IS_3 * sizeof(char)];
+}
+
 bool InputStream3::open(string path)
 {
   if ((fd = _open(path.c_str(), _O_RDONLY)) == -1)
@@ -7,21 +11,23 @@ bool InputStream3::open(string path)
     perror("Open failed");
     return false;
   }
-  size = 0;
+  bufferFill = 0;
   position = 0;
   offset = 0;
+  size = lseek(fd, 0, SEEK_END);
   return true;
 }
 
 void InputStream3::seek(int pos)
 {
   lseek(fd, pos, SEEK_SET);
-  size = 0;
+  offset = pos;
+  bufferFill = 0;
 }
 
 bool InputStream3::end_of_stream()
 {
-  return _eof(fd);
+  return offset >= size;
 }
 
 bool InputStream3::close()
@@ -30,20 +36,26 @@ bool InputStream3::close()
   return _close(fd);
 }
 
+long long int InputStream3::getSize()
+{
+  return size;
+}
+
 string InputStream3::readln()
 {
   string line = "";
   bool endline = false;
+  //cout << "position: " << position << " fill: " << bufferFill << endl;
   do
   {
-    if (position >= size - 1 || size == 0)
+    if (position >= bufferFill || bufferFill == 0)
     {
-      seek(offset * BUFFER_SIZE_IS_3);
-      size = _read(fd, buffer, BUFFER_SIZE_IS_3 * sizeof(char));
-      offset++;
+      seek(offset);
+      bufferFill = _read(fd, buffer, BUFFER_SIZE_IS_3 * sizeof(char));
+      offset += BUFFER_SIZE_IS_3;
       position = 0;
     }
-    while (position < size && !endline)
+    while (position < bufferFill && !endline)
     {
       if (buffer[position] != '\n')
       {
@@ -58,5 +70,6 @@ string InputStream3::readln()
     }
   } while (position == BUFFER_SIZE_IS_3 && !endline);
   //result += temp;
+
   return line;
 }

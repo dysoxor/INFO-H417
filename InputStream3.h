@@ -11,25 +11,28 @@
 #include <fcntl.h>
 #include <iostream>
 
-
 using namespace std;
 
-#define BUFFER_SIZE_IS_3 1024
+#define BUFFER_SIZE_IS_3 20
 
 class InputStream3 : public InputStream
 {
 private:
     int fd;
-    char *buffer = new char[BUFFER_SIZE_IS_3 * sizeof(char)];
+    char *buffer;
     int position;
-    int size;
-    int offset;
+    int bufferFill;
+    long long int offset;
+    long long int size;
 
 public:
+    InputStream3();
     bool open(string path);
     void seek(int pos);
     bool end_of_stream();
     bool close();
+
+    long long int getSize();
 
     string readln();
 };

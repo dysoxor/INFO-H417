@@ -15,7 +15,7 @@ void OutputStream3::writeln(string text)
 {
     text += '\n';
     index = 0;
-    int last = BUFFER_SIZE_OS_3 - 1;
+    int last = BUFFER_SIZE_OS_3 ;
     off_t end_position = lseek(fd, 0, SEEK_END);
     lseek(fd, end_position, SEEK_SET);
     while (index < text.size())

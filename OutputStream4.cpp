@@ -98,7 +98,7 @@ void OutputStream4::close(){
 }
 
 void OutputStream4::writeln(string line){
-
+  line += '\n';
   if(hfile==NULL){std::cout << "Empty file handle" << endl; return;}
   getTheFileSize();
   if(!mappingFile(line.size())){return;} //Map the file with the correct size

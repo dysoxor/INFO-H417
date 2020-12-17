@@ -155,10 +155,11 @@ string InputStream4::readln(){
     }
     else{
       if( *(data+j+offsetBytesCounter) == '\n'){endOfRead=true;}
-      else{line += *(data+j+offsetBytesCounter);}
+      else{line += *(data+j+offsetBytesCounter);
+           }
       ++j;
     }
   }
   offsetBytesCounter += j;
-  return line.substr(0,line.size()-1);
+  return line;
 }
