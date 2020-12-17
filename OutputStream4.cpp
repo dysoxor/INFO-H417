@@ -8,18 +8,19 @@ OutputStream4::OutputStream4(){
 }
 
 
-void OutputStream4::create(string path){
+bool OutputStream4::create(string path){
   // open a file in write only with some flags
   hfile = CreateFile(path.c_str(), //Path of the file
                           GENERIC_WRITE|GENERIC_READ, //open for writing and reading necessary to map
                           0,            //do not share
                           NULL,         //security by default
-                          CREATE_NEW, //open an existing file
+                          CREATE_ALWAYS, //open an existing file
                           FILE_ATTRIBUTE_NORMAL, //normal file
                           NULL); //no attribute template
 
   //Gestion d erreur
- if(hfile == INVALID_HANDLE_VALUE){std::cout << "Error while creating the file" << std::endl;}
+ if(hfile == INVALID_HANDLE_VALUE){std::cout << "Error while creating the file" << std::endl;return false;}
+ return true;
 }
 
 bool OutputStream4::getTheFileSize(){
@@ -96,22 +97,20 @@ void OutputStream4::close(){
   closeWindowsFile();
 }
 
-bool OutputStream4::writeln(string lineToWrite){
+void OutputStream4::writeln(string line){
 
-  if(hfile==NULL){std::cout << "Empty file handle" << endl; return false;}
+  if(hfile==NULL){std::cout << "Empty file handle" << endl; return;}
   getTheFileSize();
-  if(!mappingFile(lineToWrite.size())){return false;} //Map the file with the correct size
+  if(!mappingFile(line.size())){return;} //Map the file with the correct size
   startMapView = fileOpenSize; // Starting point of the view
-  if(!mapViewLink()){return false;} //Initialize the pointer to the map file
+  if(!mapViewLink()){return;} //Initialize the pointer to the map file
 
-  if(fileView == NULL){std::cout << "Error while trying to access fileView of file" << '\n';;}
+  if(fileView == NULL){std::cout << "Error while trying to access fileView of file" << endl;}
 
   char* data = (char*) fileView;
-  const char* lineChar = lineToWrite.c_str() ;
+  const char* lineChar = line.c_str() ;
   int basicOffset = fileOpenSize - FileMapViewStart;
-  for(int i=0; i<lineToWrite.size(); ++i){
+  for(int i=0; i<line.size(); ++i){
     *(data+i+basicOffset) = lineChar[i];
   }
-  return true;
 }
-

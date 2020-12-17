@@ -10,7 +10,7 @@
 #include <math.h>
 using namespace std;
 
-class OutputStream4 {
+class OutputStream4 : public OutputStream {
 private:
   HANDLE hfile = NULL;
   HANDLE hfileMapping;
@@ -33,10 +33,9 @@ private:
 public:
 
   OutputStream4();
-  bool writeln(string lineToWrite); //Read the next line via mappingstring readln4(); //Read the next line via mapping
-  void create(string path);//Create the file and store into hfile the link
+  void writeln(string line); //Read the next line via mappingstring readln4(); //Read the next line via mapping
+  bool create(string path);//Create the file and store into hfile the link
   void close();
 };
 
 #endif //PROJECT_OUTPUTSTREAM4_H
-
