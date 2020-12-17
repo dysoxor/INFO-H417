@@ -161,5 +161,6 @@ string InputStream4::readln(){
     }
   }
   offsetBytesCounter += j;
+  if(!line.empty()){line.erase(line.length()-1);}
   return line;
 }
