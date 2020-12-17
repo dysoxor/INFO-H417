@@ -13,7 +13,6 @@
 
 using namespace std;
 
-#define BUFFER_SIZE_IS_3 20
 
 class InputStream3 : public InputStream
 {
@@ -24,7 +23,8 @@ private:
     int bufferFill;
     long long int offset;
     long long int size;
-
+    const int DEFAULT_BUFFER_SIZE = 1024;
+    int bufferSize;
 public:
     InputStream3();
     bool open(string path);
@@ -33,7 +33,7 @@ public:
     bool close();
 
     long long int getSize();
-
+    void setBufferSize(int size);
     string readln();
 };
 

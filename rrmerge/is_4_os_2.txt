@@ -1,45 +1,20 @@
-1,movie
-1,follows
 1,2,619801,6
-2,tv series
-2,followed by
 2,50,1450538,10
-3,tv movie
-3,remake of
 3,50,257907,6
-4,video movie
-4,remade as
 4,50,260637,6
-5,tv mini series
-5,references
 5,50,766538,6
-6,video game
-6,referenced in
 6,50,1102086,6
-7,episode
-7,spoofs
 7,50,1303972,6
-8,spoofed in
 8,50,1425713,6
-9,features
 9,50,2342274,6
-10,featured in
 10,50,825167,8
-11,spin off from
 11,53,1605183,5
-12,spin off
 12,53,2221955,5
-13,version of
 13,53,670713,7
-14,similar to
 14,54,329187,5
-15,edited into
 15,55,1365902,5
-16,edited from
 16,57,2264395,5
-17,alternate language version of
 17,58,2310522,5
-18,unknown link
 18,59,572671,5
 19,60,550482,5
 20,64,529100,5

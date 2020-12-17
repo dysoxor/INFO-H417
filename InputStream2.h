@@ -7,22 +7,22 @@
 #include <stdlib.h>
 
 
-
-#define BUFFER_SIZE_IS_2 10
-
 using namespace std;
 
 class InputStream2 : public InputStream
 {
 private:
     FILE *fd;
-    char buffer[BUFFER_SIZE_IS_2];
+    int bufferSize;
+    const int DEFAULT_BUFFER_SIZE = 1024;
+    char* buffer;
 public:
+    InputStream2();
     bool open(string path);
     void seek(int pos);
     bool end_of_stream();
     bool close();
-
+    void setBufferSize(int size);
     string readln();
 };
 

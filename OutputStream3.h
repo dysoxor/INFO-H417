@@ -14,20 +14,22 @@
 
 using namespace std;
 
-#define BUFFER_SIZE_OS_3 20
-
 class OutputStream3 : public OutputStream
 {
 private:
     int fd;
-    char *buffer = new char[BUFFER_SIZE_OS_3 * sizeof(char)];
+    char* buffer;
+    const int DEFAULT_BUFFER_SIZE = 20;
+    int bufferSize;
     int index;
     void write(string line);
 
 public:
+    OutputStream3();
     bool create(string path);
     void close();
     void writeln(string line);
+    void setBufferSize(int size);
 };
 
 #endif //PROJECT_OUTPUTSTREAM3_H

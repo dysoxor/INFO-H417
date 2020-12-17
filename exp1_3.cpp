@@ -80,12 +80,46 @@ void getInputStreams(InputStream** isList, int implementation, string fileList[]
 
 
 
+void setBufferSizeInputStreams(InputStream** isList, int implementation, int length, int bufferSize) {
+    switch (implementation)
+    {
+    case 2:
+        for (int i = 0; i < length; i++) {
+            ((InputStream2*)isList[i])->setBufferSize(bufferSize);
+        }
+        break;
+    case 3:
+        for (int i = 0; i < length; i++) {
+            ((InputStream3*)isList[i])->setBufferSize(bufferSize);
+        }
+        break;    
+    default:
+        break;
+    }
+}
 
 
-void rrmerge(string fileList[], int k, int inputStreamImplementation, int outputStreamImplementation, string outputFile) {
+void setBufferSizeOutputStream(OutputStream* os, int implementation, int bufferSize) {
+    switch (implementation)
+    {
+    case 3:
+        ((OutputStream3*)os)->setBufferSize(bufferSize);
+        break;
+    }
+}
+
+
+
+void rrmerge(string fileList[], int k, int inputStreamImplementation, int outputStreamImplementation, string outputFile, int bufferSize) {
     InputStream* is[k];
     getInputStreams(is, inputStreamImplementation, fileList, k);
     OutputStream* os = getOutputStream(outputStreamImplementation);
+    if (bufferSize != -1) {
+        setBufferSizeInputStreams(is, inputStreamImplementation, k, bufferSize);
+        setBufferSizeOutputStream(os, outputStreamImplementation, bufferSize);
+    }
+
+
     if (!os->create(outputFile)) {
         cout << "Error create" << endl;
     }
@@ -109,6 +143,9 @@ void rrmerge(string fileList[], int k, int inputStreamImplementation, int output
     delete os;
 };
 
+void rrmerge(string fileList[], int k, int inputStreamImplementation, int outputStreamImplementation, string outputFile) {
+    rrmerge(fileList, k, inputStreamImplementation, outputStreamImplementation, outputFile, -1);
+}
 
 int main(int argc, char **argv){
     /* Arguments manager */
@@ -119,39 +156,63 @@ int main(int argc, char **argv){
            fileList[i-1] = argv[i];
     }
 
-    /* Number of IO implementations */
+    /* IO implementations */
     int numberOfInputImplementations = 4;
     int numberOfOutputImplementations = 3;
+    int numberOfBuffers = 2;
+
+    int inputImplementations[] = {1, 2, 3, 4};
+    int outputImplementations[] = {1, 2, 3};
+    int bufferSizes[] = {20,1024};
 
     /* Setup times */
     chrono::time_point<chrono::system_clock> startTime;
     chrono::time_point<chrono::system_clock> endTime;
-    int numberOfTimes = numberOfInputImplementations*numberOfOutputImplementations;
-    double resultTimes[numberOfTimes];
+    int numberOfTimesMajor = numberOfInputImplementations*numberOfOutputImplementations*numberOfBuffers;
+    double resultTimes[numberOfTimesMajor];
     int timeIndex = 0;
     string path;
 
     cout << "Start..0.." ;
     
-    for (int i = 1; i <= numberOfInputImplementations; i++) {
-        for (int j = 1; j <= numberOfOutputImplementations; j++) {
-            path = "rrmerge/is_"+to_string(i)+"_os_"+to_string(j)+".txt";
-            startTime = chrono::system_clock::now();
-            rrmerge(fileList, numberOfFiles, i, j, path);
-            endTime = chrono::system_clock::now();
-            resultTimes[timeIndex] = ((double)(chrono::duration_cast<chrono::nanoseconds>(endTime-startTime).count()))/1000000;
-            timeIndex++;
-            cout << (100*timeIndex)/numberOfTimes << "..";
+    for (int i = 0; i < numberOfInputImplementations; i++) {
+        for (int j = 0; j < numberOfOutputImplementations; j++) {
+            if (inputImplementations[i] == 2 || inputImplementations[i] == 3 || outputImplementations[j] == 3) {
+                for (int k = 0; k < numberOfBuffers; k++) {
+                    path = "rrmerge/is_"+to_string(inputImplementations[i])+"_os_"+to_string(outputImplementations[j])+"_buffer_"+to_string(bufferSizes[k])+".txt";
+                    startTime = chrono::system_clock::now();
+                    rrmerge(fileList, numberOfFiles, inputImplementations[i], outputImplementations[j], path, bufferSizes[k]);
+                    endTime = chrono::system_clock::now();
+                    resultTimes[timeIndex] = ((double)(chrono::duration_cast<chrono::nanoseconds>(endTime-startTime).count()))/1000000;
+                    timeIndex++;
+                    cout << (100*timeIndex)/numberOfTimesMajor << "..";
+                }
+            } else {
+                path = "rrmerge/is_"+to_string(inputImplementations[i])+"_os_"+to_string(outputImplementations[j])+".txt";
+                startTime = chrono::system_clock::now();
+                rrmerge(fileList, numberOfFiles, inputImplementations[i], outputImplementations[j], path);
+                endTime = chrono::system_clock::now();
+                resultTimes[timeIndex] = ((double)(chrono::duration_cast<chrono::nanoseconds>(endTime-startTime).count()))/1000000;
+                timeIndex++;
+                cout << (100*timeIndex)/numberOfTimesMajor << "..";
+            }
         }
     }
     cout <<"End" << endl;
 
     timeIndex = 0;
 
-    for (int i = 1; i <= numberOfInputImplementations; i++) {
-        for (int j = 1; j <= numberOfOutputImplementations; j++) {
-            cout << "IS : " << i << ", OS : " << j << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
-            timeIndex++;
+    for (int i = 0; i < numberOfInputImplementations; i++) {
+        for (int j = 0; j < numberOfOutputImplementations; j++) {
+            if (inputImplementations[i] == 2 || inputImplementations[i] == 3 || outputImplementations[j] == 3) {
+                for (int k = 0; k < numberOfBuffers; k++) {
+                    cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Buffer size : " << bufferSizes[k] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
+                    timeIndex++;
+                }
+            } else {
+                cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
+                timeIndex++;
+            } 
         }
     }
 
