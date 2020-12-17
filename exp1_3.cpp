@@ -221,7 +221,7 @@ int main(int argc, char **argv){
             } else {
                 cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
                 if (resultTimes[timeIndex] < resultTimes[minTimeIndex]) {
-                    result = "Best : IS"+to_string(inputImplementations[i])+", OS"+to_string(outputImplementations[j])+", Time :"+to_string(resultTimes[timeIndex])+"ms";
+                    result = "Best : IS"+to_string(inputImplementations[i])+", OS"+to_string(outputImplementations[j])+", Time : "+to_string(resultTimes[timeIndex])+"ms";
                     minTimeIndex = timeIndex;
                 }
                 timeIndex++;
