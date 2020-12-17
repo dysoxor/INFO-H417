@@ -1,4 +1,4 @@
-Mean time (in ms) for implementation 1 : 6570.720000
-Mean time (in ms) for implementation 2 : 46.446250
-Mean time (in ms) for implementation 3 : 715.571750
-Mean time (in ms) for implementation 4 : 33.538000
+Mean time (in ms) for implementation 1 : 11252.606250
+Mean time (in ms) for implementation 2 : 69.393000
+Mean time (in ms) for implementation 3 : 65.271750
+Mean time (in ms) for implementation 4 : 0.000000
