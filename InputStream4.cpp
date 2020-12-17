@@ -160,6 +160,5 @@ string InputStream4::readln(){
     }
   }
   offsetBytesCounter += j;
-
-  return line;
+  return line.substr(0,line.size()-1);
 }
