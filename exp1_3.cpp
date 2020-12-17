@@ -10,6 +10,7 @@
 #include <chrono>
 
 #include <iostream>
+
 using namespace std;
 
 bool areInputStreamsOpen(InputStream** is, int k) {
@@ -175,6 +176,7 @@ int main(int argc, char **argv){
 
     cout << "Start..0.." ;
     
+
     for (int i = 0; i < numberOfInputImplementations; i++) {
         for (int j = 0; j < numberOfOutputImplementations; j++) {
             if (inputImplementations[i] == 2 || inputImplementations[i] == 3 || outputImplementations[j] == 3) {
@@ -201,20 +203,33 @@ int main(int argc, char **argv){
     cout <<"End" << endl;
 
     timeIndex = 0;
+    int minTimeIndex = 0;
+    string result = "Best : IS"+to_string(inputImplementations[0])+", OS"+to_string(outputImplementations[0])+", Time :"+to_string(resultTimes[0])+"ms";
 
     for (int i = 0; i < numberOfInputImplementations; i++) {
         for (int j = 0; j < numberOfOutputImplementations; j++) {
             if (inputImplementations[i] == 2 || inputImplementations[i] == 3 || outputImplementations[j] == 3) {
                 for (int k = 0; k < numberOfBuffers; k++) {
                     cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Buffer size : " << bufferSizes[k] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
+                    
+                    if (resultTimes[timeIndex] < resultTimes[minTimeIndex]) {
+                        result = "Best : IS"+to_string(inputImplementations[i])+", OS"+to_string(outputImplementations[j])+", Buffer size :"+ to_string(bufferSizes[k])+", Time :"+to_string(resultTimes[timeIndex])+"ms";
+                        minTimeIndex = timeIndex;
+                    }
                     timeIndex++;
                 }
             } else {
                 cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
+                if (resultTimes[timeIndex] < resultTimes[minTimeIndex]) {
+                    result = "Best : IS"+to_string(inputImplementations[i])+", OS"+to_string(outputImplementations[j])+", Time :"+to_string(resultTimes[timeIndex])+"ms";
+                    minTimeIndex = timeIndex;
+                }
                 timeIndex++;
             } 
         }
     }
+
+    cout << result << endl;
 
     return 0;
 }
