@@ -5,7 +5,6 @@ InputStream4::InputStream4(){
   SYSTEM_INFO lpSystemInfo;
   GetSystemInfo(&lpSystemInfo);
   granularity = lpSystemInfo.dwAllocationGranularity;
-
 }
 
 bool InputStream4::open(string path){
@@ -160,6 +159,6 @@ string InputStream4::readln(){
     }
   }
   offsetBytesCounter += j;
-
+  if(!line.empty()){line.erase(line.length()-1);}
   return line;
 }

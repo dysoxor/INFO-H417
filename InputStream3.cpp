@@ -1,5 +1,18 @@
 #include "InputStream3.h"
 
+InputStream3::InputStream3()
+{
+  bufferSize = DEFAULT_BUFFER_SIZE;
+  buffer = new char[bufferSize * sizeof(char)];
+}
+
+void InputStream3::setBufferSize(int size)
+{
+  bufferSize = size;
+  delete buffer;
+  buffer = new char[bufferSize * sizeof(char)];
+}
+
 bool InputStream3::open(string path)
 {
   if ((fd = _open(path.c_str(), _O_RDONLY)) == -1)
@@ -41,13 +54,13 @@ string InputStream3::readln()
 {
   string line = "";
   bool endline = false;
+  //cout << "position: " << position << " fill: " << bufferFill << endl;
   do
   {
-    if (position >= bufferFill - 1 || bufferFill == 0)
+    if (position >= bufferFill || bufferFill == 0)
     {
       seek(offset);
-      bufferFill = _read(fd, buffer, BUFFER_SIZE_IS_3 * sizeof(char));
-      offset += BUFFER_SIZE_IS_3;
+      bufferFill = _read(fd, buffer, bufferSize * sizeof(char));
       position = 0;
     }
     while (position < bufferFill && !endline)
@@ -56,14 +69,16 @@ string InputStream3::readln()
       {
         line += buffer[position];
         position++;
+        offset++;
       }
       else
       {
         endline = true;
         position++;
+        offset++;
       }
     }
-  } while (position == BUFFER_SIZE_IS_3 && !endline);
+  } while (bufferFill == bufferSize && !endline);
   //result += temp;
   return line;
 }

@@ -36,7 +36,7 @@ bool OutputStream4::getTheFileSize(){
 bool OutputStream4::mappingFile(int stringSize){
   //Mapped the file and retrieve the Handler
   bool isNormal = true;
-  fileMappingSize = fileOpenSize+stringSize; //Increment the size of the file with the size of the string + 2 for \n
+  fileMappingSize = fileOpenSize+stringSize; //Increment the size of the file with the size of the string
 
   hfileMapping = CreateFileMapping(hfile, //handler of the file to map
                                    NULL, // Security attribute
@@ -98,7 +98,7 @@ void OutputStream4::close(){
 }
 
 void OutputStream4::writeln(string line){
-
+  line += '\n';
   if(hfile==NULL){std::cout << "Empty file handle" << endl; return;}
   getTheFileSize();
   if(!mappingFile(line.size())){return;} //Map the file with the correct size
@@ -111,6 +111,10 @@ void OutputStream4::writeln(string line){
   const char* lineChar = line.c_str() ;
   int basicOffset = fileOpenSize - FileMapViewStart;
   for(int i=0; i<line.size(); ++i){
+    if( ((fileOpenSize+i) % granularity == 0) && (i!=0)){
+      startMapView = fileOpenSize+i;
+      if(!mapViewLink()){return;}
+    }
     *(data+i+basicOffset) = lineChar[i];
   }
 }

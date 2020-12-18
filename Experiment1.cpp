@@ -53,7 +53,7 @@ double readImplementId(string f, unsigned int streamId){
 
     auto end = chrono::steady_clock::now();
     result = (double) (chrono::duration_cast<chrono::microseconds>(end-start).count())/1000;
-  }
+   }
   else{
     freeStreamPointer(is);
     std::cout << "Error couldn t open the file : " << f << " with the InputStream" << streamId <<endl;
@@ -119,12 +119,12 @@ void length3_4(string f, int numberOfTimes, string resultStreamPath){
 int main(int argc, char **argv)
 {
   //string file = "complete_cast";
-  string file = "aka_name";
-  //string file = "keyword";
-  //string file = "";
+  string file = "keyword";
+  //string file = "aka_name";
+  //string file = "test";
   string f = "C:\\Users\\Asus ROG\\Documents\\ulb\\MA1\\DatabaseProject\\imdb\\"+file+".csv";
-  string resultFile = "result\\" + file + "_resultExp1_length3_4.txt";
+  string resultFile = "result\\" + file + "_resultExp1_length.txt";
   unsigned int numberOfRun = 4;
-  //length0(f,numberOfRun,resultFile);
-  length3_4(f,numberOfRun,resultFile);
+  length0(f,numberOfRun,resultFile);
+  //length3_4(f,numberOfRun,resultFile);
 }
