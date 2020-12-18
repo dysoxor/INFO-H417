@@ -1,6 +1,7 @@
 #include "OutputStream4.h"
 
 OutputStream4::OutputStream4(){
+  
   //Get the granularity of the system
   SYSTEM_INFO lpSystemInfo;
   GetSystemInfo(&lpSystemInfo);

@@ -122,7 +122,6 @@ void rrmerge(string fileList[], int k, int inputStreamImplementation, int output
         setBufferSizeOutputStream(os, outputStreamImplementation, bufferSize);
     }
 
-
     if (!os->create(outputFile)) {
         cout << "Error create" << endl;
     }
@@ -161,11 +160,11 @@ int main(int argc, char **argv){
 
     /* IO implementations */
     int numberOfInputImplementations = 4;
-    int numberOfOutputImplementations = 3;
+    int numberOfOutputImplementations = 4;
     int numberOfBuffers = 1;
 
-    int inputImplementations[] = {1, 2, 3, 4};
-    int outputImplementations[] = {1, 2, 3};
+    int inputImplementations[] = {1,2,3,4};
+    int outputImplementations[] = {1,2,3,4};
     int bufferSizes[] = {1024};
 
     /* Setup times */
