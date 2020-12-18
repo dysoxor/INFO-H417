@@ -36,8 +36,12 @@ int InputStream3::getBufferSize()
 void InputStream3::seek(int pos)
 {
   lseek(fd, pos, SEEK_SET);
+  position = position + pos - offset;
+  if (position < 0 && position >= bufferFill)
+  {
+    bufferFill = 0;
+  }
   offset = pos;
-  bufferFill = 0;
 }
 
 bool InputStream3::end_of_stream()
@@ -61,6 +65,7 @@ string InputStream3::readln()
   string line = "";
   bool endline = false;
   //cout << "position: " << position << " fill: " << bufferFill << endl;
+  //cout << bufferSize << endl;
   do
   {
     if (position >= bufferFill || bufferFill == 0)
