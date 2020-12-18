@@ -66,12 +66,13 @@ string InputStream3::readln()
   bool endline = false;
   //cout << "position: " << position << " fill: " << bufferFill << endl;
   //cout << bufferSize << endl;
+  int readSize = bufferSize*sizeof(char);
   do
   {
     if (position >= bufferFill || bufferFill == 0)
     {
       seek(offset);
-      bufferFill = _read(fd, buffer, bufferSize * sizeof(char));
+      bufferFill = _read(fd, buffer, readSize);
       position = 0;
     }
     while (position < bufferFill && !endline)
