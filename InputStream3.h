@@ -22,7 +22,7 @@ private:
     int bufferFill;
     long long int offset;
     long long int size;
-    const int DEFAULT_BUFFER_SIZE = 1024;
+    const int DEFAULT_BUFFER_SIZE = 4096;
     int bufferSize;
 
 public:

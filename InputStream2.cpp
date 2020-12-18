@@ -2,7 +2,7 @@
 
 InputStream2::InputStream2()
 {
-  bufferSize = 20;
+  bufferSize = DEFAULT_BUFFER_SIZE;
   buffer = new char[bufferSize];
 }
 
@@ -22,7 +22,6 @@ bool InputStream2::open(string path)
   }
   fseek(fd, 0L, SEEK_END);
   size = ftell(fd);
-  setBufferSize(size);
   seek(0);
   return true;
 }

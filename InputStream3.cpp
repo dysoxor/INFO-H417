@@ -2,7 +2,7 @@
 
 InputStream3::InputStream3()
 {
-  bufferSize = 20;
+  bufferSize = DEFAULT_BUFFER_SIZE;
   buffer = new char[bufferSize * sizeof(char)];
 }
 
