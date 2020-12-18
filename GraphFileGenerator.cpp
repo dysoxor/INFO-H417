@@ -14,6 +14,10 @@ void GraphFileGenerator::setFileName(string fileName) {
     this->fileName = fileName;
 }
 
+void GraphFileGenerator::setTitle(string title) {
+    this->title = title;
+}
+
 void GraphFileGenerator::addPoint(double x, double y) {
     if (lineIndex == -1) {
         std::cout << "Erreur, no lines defined" << std::endl;
@@ -41,10 +45,15 @@ void GraphFileGenerator::writeResult() {
         perror("Error writing result");
         return;
     }
+    if (title.size() == 0) {
+        std::cout << "Title not defined" << std::endl;
+        return;
+    }
     if (axis1.size() == 0 || axis2.size() == 0) {
         std::cout << "Axis not defined" << std::endl;
         return;
     }
+    os->writeln(title);
     os->writeln(axis1+","+axis2);
     os->writeln("#");
     for (int i = 0; i < lines.size(); i++) {

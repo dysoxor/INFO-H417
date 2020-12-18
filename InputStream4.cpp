@@ -202,6 +202,7 @@ string InputStream4::readln()
   char *data = (char *)fileView;
   unsigned int j = 0;
   bool endOfRead = false;
+  long int size_map = numberOfBlockMapped * granularity;
   while (!endOfRead)
   {
 
@@ -210,7 +211,7 @@ string InputStream4::readln()
       endOfRead = true;
       line = "";
     }
-    else if ((offsetBytesCounter + j) >= (numberOfBlockMapped * (granularity)))
+    else if ((offsetBytesCounter + j) >= size_map)
     {
       startMapView += (offsetBytesCounter + j);
       closeMapView();

@@ -3,7 +3,7 @@ EXEC=main exp1_3 Experiment1 randjump
 
 all: $(EXEC)
 
-main: main.o InputStream1.o OutputStream1.o InputStream2.o OutputStream2.o InputStream3.o OutputStream3.o
+main: main.o InputStream1.o OutputStream1.o InputStream2.o OutputStream2.o InputStream3.o OutputStream3.o InputStream4.o OutputStream4.o
 	$(CPPFLAG) -o $@ $^
 randjump: randjump.o InputStream1.o OutputStream1.o InputStream2.o OutputStream2.o InputStream3.o OutputStream3.o InputStream4.o OutputStream4.o
 	$(CPPFLAG) -o $@ $^

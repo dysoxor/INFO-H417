@@ -136,7 +136,7 @@ int main(int argc, char **argv)
   //string file = "movie_link";
   //string file = "complete_cast";
   //string file = "keyword";
-  string file = "aka_name";
+  string file = "company_name";
   //string file = "test";
   //string f = "C:\\Users\\Andre\\Documents\\imdb\\" + file + ".csv";
   string f = "C:\\Users\\Andre\\Documents\\imdb\\" + file + ".csv";

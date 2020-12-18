@@ -20,6 +20,7 @@ private:
     string fileName;
     vector<vector<vector<double>>> lines;
     int lineIndex = -1;
+    string title = "";
 
 public:
     GraphFileGenerator(string fileName);
@@ -27,6 +28,7 @@ public:
     void setFileName(string fileName);
     void addPoint(double x, double y);
     void nextLine(string name);
+    void setTitle(string title);
     void writeResult();
 };
 
