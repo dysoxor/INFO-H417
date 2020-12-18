@@ -26,7 +26,7 @@ bool InputStream1::end_of_stream()
 
 bool InputStream1::close()
 {
-  return _close(fd);
+  return _close(fd) == 0;
 }
 
 long long int InputStream1::getSize()

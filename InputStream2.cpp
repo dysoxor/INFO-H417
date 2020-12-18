@@ -20,7 +20,8 @@ bool InputStream2::open(string path)
     perror("Open failed");
     return false;
   }
-  size = fseek(fd, 0, SEEK_END);
+  fseek(fd, 0L, SEEK_END);
+  size = ftell(fd);
   seek(0);
   return true;
 }
@@ -38,7 +39,7 @@ bool InputStream2::end_of_stream()
 bool InputStream2::close()
 {
   delete buffer;
-  return fclose(fd);
+  return fclose(fd) == 0;
 }
 
 long long int InputStream2::getSize()
