@@ -124,6 +124,7 @@ void rrmerge(string fileList[], int k, int inputStreamImplementation, int output
 
     if (!os->create(outputFile)) {
         cout << "Error create" << endl;
+        return;
     }
     string line;
     while (areInputStreamsOpen(is, k)) {
