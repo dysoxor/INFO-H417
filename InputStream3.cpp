@@ -37,7 +37,7 @@ void InputStream3::seek(int pos)
 {
   lseek(fd, pos, SEEK_SET);
   position = position + pos - offset;
-  if (position < 0 && position >= bufferFill)
+  if (position < 0 || position >= bufferFill)
   {
     bufferFill = 0;
   }

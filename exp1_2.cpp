@@ -62,7 +62,6 @@ void RandJump(string f, int j, unsigned int streamId)
             randomMax += RAND_MAX;
             it++;
         }
-        //it = rand()%it;
         long long int p;
         for (int i = 0; i < j; i++)
         {
@@ -73,7 +72,6 @@ void RandJump(string f, int j, unsigned int streamId)
                 srand(time(nullptr) + p * 5 + 8 * sum * rand());
                 p += rand();
             }
-            p = 4238 + i * 933;
             p = p % is->getSize();
             is->seek(p);
             string str = is->readln();
