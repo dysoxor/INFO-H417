@@ -118,8 +118,8 @@ void length3_4(string f, int numberOfTimes, string resultStreamPath){
 
 int main(int argc, char **argv)
 {
-  //string file = "complete_cast";
-  string file = "keyword";
+  string file = "complete_cast";
+  //string file = "keyword";
   //string file = "aka_name";
   //string file = "test";
   string f = "C:\\Users\\Asus ROG\\Documents\\ulb\\MA1\\DatabaseProject\\imdb\\"+file+".csv";
