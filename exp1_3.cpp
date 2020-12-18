@@ -7,6 +7,8 @@
 #include "InputStream4.h"
 #include "OutputStream4.h"
 
+#include "GraphFileGenerator.h"
+
 #include <chrono>
 
 #include <iostream>
@@ -202,6 +204,10 @@ int main(int argc, char **argv){
     }
     cout <<"End" << endl;
 
+    GraphFileGenerator* gfg = new GraphFileGenerator("graphOutput.txt");
+    gfg->setAxis("Configuration", "Time");
+    gfg->nextLine("Result");
+
     timeIndex = 0;
     int minTimeIndex = 0;
     string result = "Best : IS"+to_string(inputImplementations[0])+", OS"+to_string(outputImplementations[0])+", Time :"+to_string(resultTimes[0])+"ms";
@@ -211,7 +217,7 @@ int main(int argc, char **argv){
             if (inputImplementations[i] == 2 || inputImplementations[i] == 3 || outputImplementations[j] == 3) {
                 for (int k = 0; k < numberOfBuffers; k++) {
                     cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Buffer size : " << bufferSizes[k] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
-                    
+                    gfg->addPoint(timeIndex, resultTimes[timeIndex]);
                     if (resultTimes[timeIndex] < resultTimes[minTimeIndex]) {
                         result = "Best : IS"+to_string(inputImplementations[i])+", OS"+to_string(outputImplementations[j])+", Buffer size :"+ to_string(bufferSizes[k])+", Time :"+to_string(resultTimes[timeIndex])+"ms";
                         minTimeIndex = timeIndex;
@@ -220,6 +226,7 @@ int main(int argc, char **argv){
                 }
             } else {
                 cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
+                gfg->addPoint(timeIndex, resultTimes[timeIndex]);
                 if (resultTimes[timeIndex] < resultTimes[minTimeIndex]) {
                     result = "Best : IS"+to_string(inputImplementations[i])+", OS"+to_string(outputImplementations[j])+", Time : "+to_string(resultTimes[timeIndex])+"ms";
                     minTimeIndex = timeIndex;
@@ -228,8 +235,13 @@ int main(int argc, char **argv){
             } 
         }
     }
+    gfg->writeResult();
+    delete gfg;
 
     cout << result << endl;
+
+
+    
 
     return 0;
 }
