@@ -94,7 +94,6 @@ void RandJump(string f, int j, unsigned int streamId)
 int main(int argc, char **argv)
 {
     string path = "C:\\Users\\Andre\\Documents\\imdb\\aka_name.csv";
-
     RandJump(path, 50000, 1);
     RandJump(path, 50000, 2);
     RandJump(path, 50000, 3);

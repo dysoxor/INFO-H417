@@ -26,6 +26,11 @@ bool InputStream2::open(string path)
   return true;
 }
 
+int InputStream2::getBufferSize()
+{
+  return bufferSize;
+}
+
 void InputStream2::seek(int pos)
 {
   fseek(fd, pos, SEEK_SET);

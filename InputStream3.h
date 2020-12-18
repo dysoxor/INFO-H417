@@ -13,7 +13,6 @@
 
 using namespace std;
 
-
 class InputStream3 : public InputStream
 {
 private:
@@ -25,6 +24,7 @@ private:
     long long int size;
     const int DEFAULT_BUFFER_SIZE = 1024;
     int bufferSize;
+
 public:
     InputStream3();
     bool open(string path);
@@ -34,6 +34,7 @@ public:
 
     long long int getSize();
     void setBufferSize(int size);
+    int getBufferSize();
     string readln();
 };
 

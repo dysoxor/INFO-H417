@@ -25,6 +25,7 @@ public:
     bool close();
     void setBufferSize(int size);
     long long int getSize();
+    int getBufferSize();
     string readln();
 };
 
