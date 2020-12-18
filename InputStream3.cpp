@@ -24,6 +24,7 @@ bool InputStream3::open(string path)
   position = 0;
   offset = 0;
   size = lseek(fd, 0, SEEK_END);
+  seek(0);
   return true;
 }
 

@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 using namespace std;
 
 class InputStream2 : public InputStream
@@ -15,7 +14,9 @@ private:
     FILE *fd;
     int bufferSize;
     const int DEFAULT_BUFFER_SIZE = 1024;
-    char* buffer;
+    char *buffer;
+    long long int size;
+
 public:
     InputStream2();
     bool open(string path);
@@ -23,6 +24,7 @@ public:
     bool end_of_stream();
     bool close();
     void setBufferSize(int size);
+    long long int getSize();
     string readln();
 };
 

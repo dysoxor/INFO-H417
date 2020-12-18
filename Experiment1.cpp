@@ -102,7 +102,7 @@ void readFileMultipleTimes(string f, int numberOfTimes, string resultStreamPath)
 int main(int argc, char **argv)
 {
   //string f = "C:\\Users\\Asus ROG\\Documents\\ulb\\MA1\\DatabaseProject\\imdb\\keyword.csv";
-  string f = "C:\\Users\\Asus ROG\\Documents\\ulb\\MA1\\DatabaseProject\\imdb\\complete_cast.csv";
+  string f = "C:\\Users\\Andre\\Documents\\imdb\\complete_cast.csv";
   string resultFile = "result\\resultExp1.txt";
   unsigned int numberOfRun = 4;
   readFileMultipleTimes(f, numberOfRun, resultFile);
