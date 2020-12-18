@@ -5,7 +5,6 @@
 #include <iostream>
 #include <ctime>
 #include <chrono>
-#include <ratio>
 
 #include "InputStream1.h"
 #include "InputStream2.h"
@@ -20,7 +19,7 @@ void freeStreamPointer(InputStream *is)
     is = NULL;
 }
 
-void RandJump(string f, int j, unsigned int streamId)
+void RandJump(string f, int j, unsigned int streamId, int t)
 {
     chrono::high_resolution_clock::time_point startTime;
     chrono::high_resolution_clock::time_point endTime;
@@ -69,7 +68,7 @@ void RandJump(string f, int j, unsigned int streamId)
 
             for (int k = 0; k < it; k++)
             {
-                srand(time(nullptr) + p * 5 + 8 * sum * rand());
+                srand(t + p * 5 + 8 * sum * rand());
                 p += rand();
             }
             p = p % is->getSize();
@@ -93,9 +92,13 @@ void RandJump(string f, int j, unsigned int streamId)
 
 int main(int argc, char **argv)
 {
-    string path = "C:\\Users\\Andre\\Documents\\imdb\\aka_name.csv";
-    RandJump(path, 50000, 1);
-    RandJump(path, 50000, 2);
-    RandJump(path, 50000, 3);
-    RandJump(path, 50000, 4);
+    char *a = argv[1];
+    int j = atoi(a);
+    string path = argv[2];
+
+    int t = time(nullptr);
+    RandJump(path, j, 1, t);
+    RandJump(path, j, 2, t);
+    RandJump(path, j, 3, t);
+    RandJump(path, j, 4, t);
 }
