@@ -139,7 +139,7 @@ int main(int argc, char **argv)
   string file = "company_name";
   //string file = "test";
   //string f = "C:\\Users\\Andre\\Documents\\imdb\\" + file + ".csv";
-  string f = "C:\\Users\\Asus ROG\\Documents\\ulb\\MA1\\DatabaseProject\\imdb\\" +file + ".csv";
+  string f = "C:\\Users\\Andre\\Documents\\imdb\\" + file + ".csv";
   string resultFile = "result\\" + file + "_resultExp1_length.txt";
   unsigned int numberOfRun = 4;
   length0(f, numberOfRun, resultFile);

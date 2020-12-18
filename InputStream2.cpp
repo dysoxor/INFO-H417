@@ -2,7 +2,7 @@
 
 InputStream2::InputStream2()
 {
-  bufferSize = DEFAULT_BUFFER_SIZE;
+  bufferSize = 20;
   buffer = new char[bufferSize];
 }
 
@@ -22,6 +22,7 @@ bool InputStream2::open(string path)
   }
   fseek(fd, 0L, SEEK_END);
   size = ftell(fd);
+  setBufferSize(size);
   seek(0);
   return true;
 }
@@ -57,8 +58,8 @@ string InputStream2::readln()
   string result = "";
   string tempRes = "";
   do
-  { 
-    if (fgets(buffer, bufferSize + 1, fd) == NULL)
+  {
+    if (fgets(buffer, bufferSize, fd) == NULL)
     {
       break;
     }
