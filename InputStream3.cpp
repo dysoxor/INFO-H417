@@ -28,6 +28,11 @@ bool InputStream3::open(string path)
   return true;
 }
 
+int InputStream3::getBufferSize()
+{
+  return bufferSize;
+}
+
 void InputStream3::seek(int pos)
 {
   lseek(fd, pos, SEEK_SET);

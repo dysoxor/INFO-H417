@@ -20,12 +20,13 @@ void freeStreamPointer(InputStream *is)
     is = NULL;
 }
 
-void RandJump(string f, int j, unsigned int streamId)
+void RandJump(string f, int j, unsigned int streamId, int runs)
 {
     chrono::high_resolution_clock::time_point startTime;
     chrono::high_resolution_clock::time_point endTime;
     startTime = chrono::high_resolution_clock::now();
     InputStream *is;
+
     switch (streamId)
     {
     case 1:
@@ -36,11 +37,13 @@ void RandJump(string f, int j, unsigned int streamId)
     case 2:
         is = new InputStream2();
         cout << "Input stream 2... " << endl;
+        int buffers[3] = {20, 1024, 2048};
         break;
 
     case 3:
         is = new InputStream3();
         cout << "Input stream 3... " << endl;
+        int buffers[3] = {20, 1024, 2048};
         break;
 
     case 4:
@@ -54,6 +57,7 @@ void RandJump(string f, int j, unsigned int streamId)
     }
     if (is->open(f))
     {
+
         long long int sum = 0;
         long long int randomMax = RAND_MAX;
         int it = 1;
@@ -95,8 +99,8 @@ int main(int argc, char **argv)
 {
     string path = "C:\\Users\\Andre\\Documents\\imdb\\aka_name.csv";
 
-    RandJump(path, 50000, 1);
-    RandJump(path, 50000, 2);
-    RandJump(path, 50000, 3);
-    RandJump(path, 50000, 4);
+    RandJump(path, 50000, 1, 1);
+    RandJump(path, 50000, 2, 1);
+    RandJump(path, 50000, 3, 1);
+    RandJump(path, 50000, 4, 1);
 }
