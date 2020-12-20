@@ -24,7 +24,7 @@ bool InputStream3::open(string path)
   position = 0;
   offset = 0;
   size = lseek(fd, 0, SEEK_END);
-  seek(0);
+  lseek(fd, 0, SEEK_SET);
   return true;
 }
 
@@ -35,7 +35,7 @@ int InputStream3::getBufferSize()
 
 void InputStream3::seek(int pos)
 {
-  lseek(fd, pos, SEEK_SET);
+
   position = position + pos - offset;
   if (position < 0 || position >= bufferFill)
   {
@@ -64,15 +64,16 @@ string InputStream3::readln()
 {
   string line = "";
   bool endline = false;
-  int readSize = bufferSize*sizeof(char);
+  int readSize = bufferSize * sizeof(char);
   do
   {
     if (position >= bufferFill || bufferFill == 0)
     {
+      lseek(fd, offset, SEEK_SET);
       bufferFill = _read(fd, buffer, readSize);
       position = 0;
     }
-    while (position < bufferFill && !endline)
+    while (position < bufferSize && !endline && !end_of_stream())
     {
       if (buffer[position] != '\n')
       {
@@ -88,5 +89,6 @@ string InputStream3::readln()
       }
     }
   } while (bufferFill == bufferSize && !endline);
+  //cout << line << "   ";
   return line;
 }

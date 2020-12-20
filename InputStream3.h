@@ -21,9 +21,9 @@ private:
     int position;
     int bufferFill;
     long long int offset;
-    long long int size;
     const int DEFAULT_BUFFER_SIZE = 4096;
     int bufferSize;
+    long long int size;
 
 public:
     InputStream3();
