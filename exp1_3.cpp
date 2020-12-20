@@ -40,7 +40,7 @@ OutputStream* getOutputStream(int implementation) {
     case 4:
         result = new OutputStream4();
         break;
-    
+
     default:
         cout << "Error" << endl;
         return NULL;
@@ -75,11 +75,11 @@ void getInputStreams(InputStream** isList, int implementation, string fileList[]
             isList[i] = new InputStream4();
             isList[i]->open(fileList[i]);
         }
-        break;    
+        break;
     default:
         break;
     }
-}; 
+};
 
 
 
@@ -95,7 +95,7 @@ void setBufferSizeInputStreams(InputStream** isList, int implementation, int len
         for (int i = 0; i < length; i++) {
             ((InputStream3*)isList[i])->setBufferSize(bufferSize);
         }
-        break;    
+        break;
     default:
         break;
     }
@@ -159,11 +159,11 @@ int main(int argc, char **argv){
     }
 
     /* IO implementations */
-    int numberOfInputImplementations = 4;
+    int numberOfInputImplementations = 3;
     int numberOfOutputImplementations = 4;
     int numberOfBuffers = 1;
 
-    int inputImplementations[] = {1,2,3,4};
+    int inputImplementations[] = {1,2,4};
     int outputImplementations[] = {1,2,3,4};
     int bufferSizes[] = {1024};
 
@@ -176,7 +176,7 @@ int main(int argc, char **argv){
     string path;
 
     cout << "Start..0.." ;
-    
+
 
     for (int i = 0; i < numberOfInputImplementations; i++) {
         for (int j = 0; j < numberOfOutputImplementations; j++) {
@@ -231,7 +231,7 @@ int main(int argc, char **argv){
                     minTimeIndex = timeIndex;
                 }
                 timeIndex++;
-            } 
+            }
         }
     }
     gfg->writeResult();
@@ -240,10 +240,7 @@ int main(int argc, char **argv){
     cout << result << endl;
 
 
-    
+
 
     return 0;
 }
-
-
-
