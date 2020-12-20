@@ -124,6 +124,7 @@ void rrmerge(string fileList[], int k, int inputStreamImplementation, int output
 
     if (!os->create(outputFile)) {
         cout << "Error create" << endl;
+        return;
     }
     string line;
     while (areInputStreamsOpen(is, k)) {
@@ -160,12 +161,12 @@ int main(int argc, char **argv){
 
     /* IO implementations */
     int numberOfInputImplementations = 3;
-    int numberOfOutputImplementations = 4;
+    int numberOfOutputImplementations = 1;
     int numberOfBuffers = 1;
 
-    int inputImplementations[] = {1,2,4};
-    int outputImplementations[] = {1,2,3,4};
-    int bufferSizes[] = {1024};
+    int inputImplementations[] = {2,3,4};
+    int outputImplementations[] = {2};
+    int bufferSizes[] = {4096};
 
     /* Setup times */
     chrono::time_point<chrono::system_clock> startTime;
@@ -202,21 +203,20 @@ int main(int argc, char **argv){
         }
     }
     cout <<"End" << endl;
-
     GraphFileGenerator* gfg = new GraphFileGenerator("graphOutput.txt");
-    gfg->setTitle("Exp3 with buffer 1024");
-    gfg->setAxis("OutputStream", "Time (ms)");
+    gfg->setTitle("RR merge");
+    gfg->setAxis("InputStream", "Time (ms)");
     timeIndex = 0;
     int minTimeIndex = 0;
     string result = "Best : IS"+to_string(inputImplementations[0])+", OS"+to_string(outputImplementations[0])+", Time :"+to_string(resultTimes[0])+"ms";
 
-    for (int i = 0; i < numberOfInputImplementations; i++) {
+    /*for (int i = 0; i < numberOfInputImplementations; i++) {
         gfg->nextLine("IS"+to_string(inputImplementations[i]));
         for (int j = 0; j < numberOfOutputImplementations; j++) {
             if (inputImplementations[i] == 2 || inputImplementations[i] == 3 || outputImplementations[j] == 3) {
                 for (int k = 0; k < numberOfBuffers; k++) {
                     cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Buffer size : " << bufferSizes[k] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
-                    gfg->addPoint(outputImplementations[j], resultTimes[timeIndex]);
+                    gfg->addPoint(bufferSizes[k], resultTimes[timeIndex]);
                     if (resultTimes[timeIndex] < resultTimes[minTimeIndex]) {
                         result = "Best : IS"+to_string(inputImplementations[i])+", OS"+to_string(outputImplementations[j])+", Buffer size :"+ to_string(bufferSizes[k])+", Time :"+to_string(resultTimes[timeIndex])+"ms";
                         minTimeIndex = timeIndex;
@@ -225,7 +225,32 @@ int main(int argc, char **argv){
                 }
             } else {
                 cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
-                gfg->addPoint(outputImplementations[j], resultTimes[timeIndex]);
+                gfg->addPoint(inputImplementations[i], resultTimes[timeIndex]);
+                if (resultTimes[timeIndex] < resultTimes[minTimeIndex]) {
+                    result = "Best : IS"+to_string(inputImplementations[i])+", OS"+to_string(outputImplementations[j])+", Time : "+to_string(resultTimes[timeIndex])+"ms";
+                    minTimeIndex = timeIndex;
+                }
+                timeIndex++;
+            }
+        }
+    }*/
+
+    for (int i = 0; i < numberOfInputImplementations; i++) {
+        gfg->nextLine("IS"+to_string(inputImplementations[i]));
+        for (int j = 0; j < numberOfOutputImplementations; j++) {
+            if (inputImplementations[i] == 2 || inputImplementations[i] == 3 || outputImplementations[j] == 3) {
+                for (int k = 0; k < numberOfBuffers; k++) {
+                    cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Buffer size : " << bufferSizes[k] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
+                    gfg->addPoint(inputImplementations[i], resultTimes[timeIndex]);
+                    if (resultTimes[timeIndex] < resultTimes[minTimeIndex]) {
+                        result = "Best : IS"+to_string(inputImplementations[i])+", OS"+to_string(outputImplementations[j])+", Buffer size :"+ to_string(bufferSizes[k])+", Time :"+to_string(resultTimes[timeIndex])+"ms";
+                        minTimeIndex = timeIndex;
+                    }
+                    timeIndex++;
+                }
+            } else {
+                cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
+                gfg->addPoint(inputImplementations[i], resultTimes[timeIndex]);
                 if (resultTimes[timeIndex] < resultTimes[minTimeIndex]) {
                     result = "Best : IS"+to_string(inputImplementations[i])+", OS"+to_string(outputImplementations[j])+", Time : "+to_string(resultTimes[timeIndex])+"ms";
                     minTimeIndex = timeIndex;
@@ -237,7 +262,7 @@ int main(int argc, char **argv){
     gfg->writeResult();
     delete gfg;
 
-    cout << result << endl;
+    //cout << result << endl;
 
 
 

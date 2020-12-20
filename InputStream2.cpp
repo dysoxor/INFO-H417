@@ -57,8 +57,8 @@ string InputStream2::readln()
   string result = "";
   string tempRes = "";
   do
-  { 
-    if (fgets(buffer, bufferSize + 1, fd) == NULL)
+  {
+    if (fgets(buffer, bufferSize, fd) == NULL)
     {
       break;
     }

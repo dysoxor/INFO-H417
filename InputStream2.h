@@ -13,7 +13,7 @@ class InputStream2 : public InputStream
 private:
     FILE *fd;
     int bufferSize;
-    const int DEFAULT_BUFFER_SIZE = 1024;
+    const int DEFAULT_BUFFER_SIZE = 4096;
     char *buffer;
     long long int size;
 
