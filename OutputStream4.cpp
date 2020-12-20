@@ -1,7 +1,7 @@
 #include "OutputStream4.h"
 
 OutputStream4::OutputStream4(){
-  
+
   //Get the granularity of the system
   SYSTEM_INFO lpSystemInfo;
   GetSystemInfo(&lpSystemInfo);
@@ -77,7 +77,6 @@ bool OutputStream4::mapViewLink(){
                            dwMapViewSize);          // number of bytes to map
 
   if(fileView == NULL){std::cout << "Error while creating the  view map" << std::endl; isNormal=false;}
-
   return isNormal;
 }
 
@@ -93,8 +92,8 @@ void OutputStream4::closeMapView(){
 }
 
 void OutputStream4::close(){
-  closeMapView();
-  closeMappingFile();
+  //closeMapView();
+  //closeMappingFile();
   closeWindowsFile();
 }
 
@@ -111,11 +110,20 @@ void OutputStream4::writeln(string line){
   char* data = (char*) fileView;
   const char* lineChar = line.c_str() ;
   int basicOffset = fileOpenSize - FileMapViewStart;
+  int position = 0;
+
   for(int i=0; i<line.size(); ++i){
     if( ((fileOpenSize+i) % granularity == 0) && (i!=0)){
       startMapView = fileOpenSize+i;
+      closeMapView();
       if(!mapViewLink()){return;}
+      data = (char*) fileView;
+      basicOffset = 0;
+      position = 0;
     }
-    *(data+i+basicOffset) = lineChar[i];
+    *(data+position+basicOffset) = lineChar[i];
+    ++position;
   }
+  closeMapView();
+  closeMappingFile();
 }
