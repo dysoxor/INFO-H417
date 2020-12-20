@@ -15,7 +15,6 @@ private:
     int bufferSize;
     const int DEFAULT_BUFFER_SIZE = 4096;
     char *buffer;
-    long long int size;
 
 public:
     InputStream2();

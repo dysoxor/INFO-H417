@@ -5,7 +5,7 @@ all: $(EXEC)
 
 main: main.o InputStream1.o OutputStream1.o InputStream2.o OutputStream2.o InputStream3.o OutputStream3.o InputStream4.o OutputStream4.o
 	$(CPPFLAG) -o $@ $^
-randjump: randjump.o InputStream1.o OutputStream1.o InputStream2.o OutputStream2.o InputStream3.o OutputStream3.o InputStream4.o OutputStream4.o
+randjump: randjump.o InputStream1.o OutputStream1.o InputStream2.o OutputStream2.o InputStream3.o OutputStream3.o InputStream4.o OutputStream4.o GraphFileGenerator.o
 	$(CPPFLAG) -o $@ $^
 exp1_3: exp1_3.o InputStream1.o OutputStream1.o InputStream2.o OutputStream2.o InputStream3.o OutputStream3.o InputStream4.o OutputStream4.o GraphFileGenerator.o
 	$(CPPFLAG) -o $@ $^

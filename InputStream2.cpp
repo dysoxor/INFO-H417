@@ -20,8 +20,7 @@ bool InputStream2::open(string path)
     perror("Open failed");
     return false;
   }
-  fseek(fd, 0L, SEEK_END);
-  size = ftell(fd);
+
   seek(0);
   return true;
 }
@@ -49,7 +48,8 @@ bool InputStream2::close()
 
 long long int InputStream2::getSize()
 {
-  return size;
+  fseek(fd, 0L, SEEK_END);
+  return ftell(fd);
 }
 
 string InputStream2::readln()
