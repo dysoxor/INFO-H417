@@ -1,3 +1,5 @@
 *.o
 *.exe
 settings.json
+InputStream.cpp
+InputStream.h

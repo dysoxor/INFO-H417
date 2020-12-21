@@ -6,6 +6,7 @@ OutputStream4::OutputStream4(){
   SYSTEM_INFO lpSystemInfo;
   GetSystemInfo(&lpSystemInfo);
   granularity = lpSystemInfo.dwAllocationGranularity;
+  offsetBytesCounter = 0;
 }
 
 
@@ -21,6 +22,7 @@ bool OutputStream4::create(string path){
 
   //Gestion d erreur
  if(hfile == INVALID_HANDLE_VALUE){std::cout << "Error while creating the file" << std::endl;return false;}
+ if(!mappingFile()){return false;} //Map the file with the correct size
  return true;
 }
 
@@ -34,10 +36,10 @@ bool OutputStream4::getTheFileSize(){
 }
 
 
-bool OutputStream4::mappingFile(int stringSize){
+bool OutputStream4::mappingFile(){
   //Mapped the file and retrieve the Handler
   bool isNormal = true;
-  fileMappingSize = fileOpenSize+stringSize; //Increment the size of the file with the size of the string
+  fileMappingSize = fileOpenSize+numberBlockMapped*granularity; //Increment the size of the file with the size of the string
 
   hfileMapping = CreateFileMapping(hfile, //handler of the file to map
                                    NULL, // Security attribute
@@ -59,13 +61,12 @@ bool OutputStream4::mapViewLink(){
     granularity to correspond to a memory block. Here we round down the offset to
     the nearest block
   */
-  bool isNormal = true;
-  FileMapViewStart =(startMapView/(granularity)) *(granularity); // The offset at which the mapView start in bits
+  FileMapViewStart =(startMapView/(granularity)) *(granularity); // The offset at which the mapView start
   long long int FileMapViewStartLowInt = FileMapViewStart & 0x00000000FFFFFFFF ;
   long long int FileMapViewStartHighInt = FileMapViewStart & 0xFFFFFFFF00000000;
   DWORD dwFileMapViewStartLow =  FileMapViewStartLowInt;// The offset at which the mapView start in bits
   DWORD dwFileMapViewStartHigh = FileMapViewStartHighInt;
-  DWORD dwMapViewSize = 1*granularity; //In bytes !!
+  DWORD dwMapViewSize = numberBlockMapped*granularity;
 
   if( (FileMapViewStart + dwMapViewSize) > fileMappingSize){dwMapViewSize = fileMappingSize-FileMapViewStart;}
 
@@ -76,8 +77,8 @@ bool OutputStream4::mapViewLink(){
                            dwFileMapViewStartLow,           // Low order 32 bits file offset
                            dwMapViewSize);          // number of bytes to map
 
-  if(fileView == NULL){std::cout << "Error while creating the  view map" << std::endl; isNormal=false;}
-  return isNormal;
+  if(fileView == NULL){std::cout << "Error while creating the view map" << std::endl; return false;}
+  return true;
 }
 
 void OutputStream4::closeWindowsFile(){
@@ -93,37 +94,37 @@ void OutputStream4::closeMapView(){
 
 void OutputStream4::close(){
   //closeMapView();
-  //closeMappingFile();
+  closeMappingFile();
   closeWindowsFile();
 }
 
 void OutputStream4::writeln(string line){
   line += '\n';
   if(hfile==NULL){std::cout << "Empty file handle" << endl; return;}
-  getTheFileSize();
-  if(!mappingFile(line.size())){return;} //Map the file with the correct size
-  startMapView = fileOpenSize; // Starting point of the view
+  if(!getTheFileSize()){std::cout << "Error in retrieving the file size" << endl;}
   if(!mapViewLink()){return;} //Initialize the pointer to the map file
 
   if(fileView == NULL){std::cout << "Error while trying to access fileView of file" << endl;}
 
   char* data = (char*) fileView;
   const char* lineChar = line.c_str() ;
-  int basicOffset = fileOpenSize - FileMapViewStart;
-  int position = 0;
 
   for(int i=0; i<line.size(); ++i){
-    if( ((fileOpenSize+i) % granularity == 0) && (i!=0)){
-      startMapView = fileOpenSize+i;
+    //Check if we need to remap the file
+    if(FileMapViewStart+offsetBytesCounter >= fileOpenSize){
+      if(!mappingFile()){std::cout << "Error in mapping the file" << endl; return;}
+      if(!getTheFileSize()){std::cout << "Error in retriving the file size" << endl;}
+    }
+    //Check if we need to remap the view
+    if( offsetBytesCounter >= numberBlockMapped*granularity){
+      startMapView = FileMapViewStart+offsetBytesCounter;
       closeMapView();
       if(!mapViewLink()){return;}
       data = (char*) fileView;
-      basicOffset = 0;
-      position = 0;
+      offsetBytesCounter=0;
     }
-    *(data+position+basicOffset) = lineChar[i];
-    ++position;
+    *(data+offsetBytesCounter) = lineChar[i];
+    ++offsetBytesCounter;
   }
   closeMapView();
-  closeMappingFile();
 }
