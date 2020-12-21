@@ -18,7 +18,7 @@ private:
   long long int fileOpenSize;
   DWORD granularity;              //Granularity of the system used to know the size of each memory block
   long long int startMapView = 0; //Number of bits at which we create the view in the file, starting value 0
-  int numberOfBlockMapped = 32;    //Base one but can be chosen by the user
+  int numberOfBlockMapped = 1;    //Base one but can be chosen by the user
   int offsetBytesCounter = 0;
 
   //Private éethod concerning the method of reading the file with mapping

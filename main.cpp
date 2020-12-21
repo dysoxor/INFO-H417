@@ -1,4 +1,4 @@
-#include "InputStream4.h"
+#include "InputStream2.h"
 #include "OutputStream4.h"
 
 #include <iostream>
@@ -7,9 +7,9 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-  string file = "C:\\Users\\Asus ROG\\Documents\\ulb\\MA1\\DatabaseProject\\imdb\\keyword.csv";
+  string file = "../db/complete_cast.csv";
   string writeFile = "test.txt";
-  InputStream4 is;
+  InputStream2 is;
   OutputStream4 outs;
   if(is.open(file) && outs.create(writeFile)){
     string line = "";
