@@ -51,7 +51,7 @@ bool OutputStream4::mappingFile(){
                                    fileMappingSize, //Low order Dword size if (0,0) map the file completely
                                    NULL); //Name of the fileMapping object
 
-
+  IOCounter++;
   if(GetLastError() == ERROR_FILE_INVALID){std::cout<< "Error mapping invalid"<< std::endl; isNormal=false;}
   else if(hfileMapping == NULL){std::cout << "Error while mapping the file" << std::endl; isNormal =false;}
 

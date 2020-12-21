@@ -101,6 +101,7 @@ bool InputStream4::mappingFile()
                                    0,             //Low order Dword size if (0,0) map the file completely
                                    NULL);         //Name of the fileMapping object
 
+  IOCounter++;
   if (GetLastError() == ERROR_FILE_INVALID)
   {
     std::cout << "Error mapping invalid" << std::endl;

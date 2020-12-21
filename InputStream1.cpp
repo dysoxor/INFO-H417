@@ -39,10 +39,12 @@ string InputStream1::readln()
   char buffer;
   string result = "";
   _read(fd, &buffer, sizeof(char));
+  IOCounter++;
   while (buffer != '\n')
   {
     result += buffer;
     _read(fd, &buffer, sizeof(char));
+    IOCounter++;
   }
   return result;
 }

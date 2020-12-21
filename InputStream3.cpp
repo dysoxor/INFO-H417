@@ -71,6 +71,7 @@ string InputStream3::readln()
     {
       lseek(fd, offset, SEEK_SET);
       bufferFill = _read(fd, buffer, readSize);
+      IOCounter++;
       position = 0;
     }
     while (position < bufferSize && !endline && !end_of_stream())
