@@ -21,9 +21,10 @@ private:
   DWORD granularity; //Granularity of the system used to know the size of each memory block
   long long int startMapView = 0; //Number of bits at which we create the view in the file, starting value 0
   int offsetBytesCounter = 0;
+  int numberBlockMapped = 1; //Number of numberBlockMapped add
 
   //Private method concerning the mapping of the file
-  bool mappingFile(int stringSize);
+  bool mappingFile();
   bool getTheFileSize(); //Get the file size in the correct type
   bool mapViewLink();
   void closeWindowsFile();

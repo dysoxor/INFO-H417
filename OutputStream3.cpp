@@ -43,6 +43,7 @@ void OutputStream3::writeln(string text)
         }
 
         _write(fd, &buffer[0], last * sizeof(char));
+        IOCounter++;
     }
 }
 

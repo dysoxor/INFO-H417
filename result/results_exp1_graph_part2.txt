@@ -1,10 +1,5 @@
+Implementation 2-3-4 time
 File,time(ms)
-#
-Input1
-1,1788
-2,6839
-3,10149
-4,44843
 #
 Input2
 1,13

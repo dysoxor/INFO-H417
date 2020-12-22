@@ -12,6 +12,7 @@ bool OutputStream2::create(string path){
 void OutputStream2::writeln(string text){
     text+='\n';
     fputs(text.c_str(), fd);
+    IOCounter++;
 }
 
 void OutputStream2::close(){
