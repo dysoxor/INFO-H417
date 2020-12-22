@@ -31,22 +31,18 @@ double RandJump(string f, int j, unsigned int streamId, int t)
     {
     case 1:
         is = new InputStream1();
-        cout << "Input stream 1... " << endl;
         break;
 
     case 2:
         is = new InputStream2();
-        cout << "Input stream 2... " << endl;
         break;
 
     case 3:
         is = new InputStream3();
-        cout << "Input stream 3... " << endl;
         break;
 
     case 4:
         is = new InputStream4();
-        cout << "Input stream 4... " << endl;
         break;
 
     default:
@@ -116,7 +112,6 @@ int main(int argc, char **argv)
     char *a = argv[1];
     int j = atoi(a);
     string paths[argc - 2];
-    string fileNames[argc - 2];
     for (int i = 2; i < argc; i++)
     {
         paths[i - 2] = argv[i];
@@ -127,24 +122,26 @@ int main(int argc, char **argv)
     gfg->setAxis("file", "Time (s)");
     gfg->nextLine("IS1");
     int times[argc - 2];
-
+    cout << "Input stream 1... " << endl;
     for (int i = 0; i < argc - 2; i++)
     {
         times[i] = time(nullptr);
-
         gfg->addPoint(i, RandJump(paths[i], j, 1, times[i]));
     }
     gfg->nextLine("IS2");
+    cout << "Input stream 2... " << endl;
     for (int i = 0; i < argc - 2; i++)
     {
         gfg->addPoint(i, RandJump(paths[i], j, 2, times[i]));
     }
     gfg->nextLine("IS3");
+    cout << "Input stream 3... " << endl;
     for (int i = 0; i < argc - 2; i++)
     {
         gfg->addPoint(i, RandJump(paths[i], j, 3, times[i]));
     }
     gfg->nextLine("IS4");
+    cout << "Input stream 4... " << endl;
     for (int i = 0; i < argc - 2; i++)
     {
         gfg->addPoint(i, RandJump(paths[i], j, 4, times[i]));
