@@ -1,5 +1,5 @@
-Number of runs : 5
-Mean time (in ms) for implementation 1 : 50822.277200
-Mean time (in ms) for implementation 2 : 171.109400
-Mean time (in ms) for implementation 3 : 339.186200
-Mean time (in ms) for implementation 4 : 219.256000
+Number of runs : 4
+Mean time (in ms) for implementation 1 : 36150.811000
+Mean time (in ms) for implementation 2 : 145.497000
+Mean time (in ms) for implementation 3 : 237.741250
+Mean time (in ms) for implementation 4 : 199.538000

@@ -20,8 +20,8 @@ private:
     char *buffer;
     int position;
     int bufferFill;
-    long long int offset;
-    const int DEFAULT_BUFFER_SIZE = 4096;
+    size_t offset;
+    const int DEFAULT_BUFFER_SIZE = 65536;
     int bufferSize;
     long long int size;
 

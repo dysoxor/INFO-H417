@@ -69,11 +69,11 @@ string InputStream3::readln()
   {
     if (position >= bufferFill || bufferFill == 0)
     {
-      lseek(fd, offset, SEEK_SET);
+      if(_lseek(fd, offset, SEEK_SET) != offset){std::cout << "Error in seeking the new position" <<endline;}
       bufferFill = _read(fd, buffer, readSize);
       position = 0;
     }
-    while (position < bufferSize && !endline && !end_of_stream())
+    while (position < bufferFill && !endline && !end_of_stream())
     {
       if (buffer[position] != '\n')
       {
@@ -85,10 +85,9 @@ string InputStream3::readln()
       {
         endline = true;
         position++;
-        offset++;
+        offset+=2;
       }
     }
   } while (bufferFill == bufferSize && !endline);
-  //cout << line << "   ";
   return line;
 }

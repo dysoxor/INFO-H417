@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-  string file = "C:\\Users\\Asus ROG\\Documents\\ulb\\MA1\\DatabaseProject\\imdb\\keyword.csv";
+  string file = "C:\\Users\\Asus ROG\\Documents\\ulb\\MA1\\DatabaseProject\\imdb\\complete_cast.csv";
   string writeFile = "test.txt";
   InputStream4 is;
   OutputStream4 outs;

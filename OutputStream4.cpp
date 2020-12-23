@@ -6,6 +6,7 @@ OutputStream4::OutputStream4(){
   SYSTEM_INFO lpSystemInfo;
   GetSystemInfo(&lpSystemInfo);
   granularity = lpSystemInfo.dwAllocationGranularity;
+  fileMappingSize=0;
   offsetBytesCounter = 0;
 }
 
@@ -39,7 +40,7 @@ bool OutputStream4::getTheFileSize(){
 bool OutputStream4::mappingFile(){
   //Mapped the file and retrieve the Handler
   bool isNormal = true;
-  fileMappingSize = fileOpenSize+numberBlockMapped*granularity; //Increment the size of the file with the size of the string
+  fileMappingSize += numberBlockMapped*granularity; //Increment the size of the file with the size of the string
 
   hfileMapping = CreateFileMapping(hfile, //handler of the file to map
                                    NULL, // Security attribute
