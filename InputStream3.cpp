@@ -71,6 +71,7 @@ string InputStream3::readln()
     {
       if(_lseek(fd, offset, SEEK_SET) != offset){std::cout << "Error in seeking the new position" <<endline;}
       bufferFill = _read(fd, buffer, readSize);
+      IOCounter++;
       position = 0;
     }
     while (position < bufferFill && !endline && !end_of_stream())

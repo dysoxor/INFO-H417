@@ -8,6 +8,7 @@ OutputStream4::OutputStream4(){
   granularity = lpSystemInfo.dwAllocationGranularity;
   fileMappingSize=0;
   offsetBytesCounter = 0;
+  fileMappingSize = 0;
 }
 
 
@@ -24,6 +25,8 @@ bool OutputStream4::create(string path){
   //Gestion d erreur
  if(hfile == INVALID_HANDLE_VALUE){std::cout << "Error while creating the file" << std::endl;return false;}
  if(!mappingFile()){return false;} //Map the file with the correct size
+ if(!mapViewLink()){return false;} //Initialize the pointer to the map file
+
  return true;
 }
 
@@ -49,7 +52,7 @@ bool OutputStream4::mappingFile(){
                                    fileMappingSize, //Low order Dword size if (0,0) map the file completely
                                    NULL); //Name of the fileMapping object
 
-
+  IOCounter++;
   if(GetLastError() == ERROR_FILE_INVALID){std::cout<< "Error mapping invalid"<< std::endl; isNormal=false;}
   else if(hfileMapping == NULL){std::cout << "Error while mapping the file" << std::endl; isNormal =false;}
 
@@ -94,7 +97,7 @@ void OutputStream4::closeMapView(){
 }
 
 void OutputStream4::close(){
-  //closeMapView();
+  closeMapView();
   closeMappingFile();
   closeWindowsFile();
 }
@@ -103,7 +106,6 @@ void OutputStream4::writeln(string line){
   line += '\n';
   if(hfile==NULL){std::cout << "Empty file handle" << endl; return;}
   if(!getTheFileSize()){std::cout << "Error in retrieving the file size" << endl;}
-  if(!mapViewLink()){return;} //Initialize the pointer to the map file
 
   if(fileView == NULL){std::cout << "Error while trying to access fileView of file" << endl;}
 
@@ -127,5 +129,5 @@ void OutputStream4::writeln(string line){
     *(data+offsetBytesCounter) = lineChar[i];
     ++offsetBytesCounter;
   }
-  closeMapView();
+  //closeMapView();
 }

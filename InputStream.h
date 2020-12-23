@@ -7,6 +7,9 @@ using namespace std;
 
 class InputStream
 {
+protected:
+    long long int IOCounter = 0;
+
 public:
     InputStream(void){};
     ~InputStream(void){};
@@ -16,6 +19,7 @@ public:
     virtual bool close() = 0;
     virtual string readln() = 0;
     virtual long long int getSize() = 0;
+    long long int getIOCounter();
 };
 
 #endif //PROJECT_INPUTSTREAM_H
