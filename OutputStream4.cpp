@@ -6,6 +6,7 @@ OutputStream4::OutputStream4(){
   SYSTEM_INFO lpSystemInfo;
   GetSystemInfo(&lpSystemInfo);
   granularity = lpSystemInfo.dwAllocationGranularity;
+  fileMappingSize=0;
   offsetBytesCounter = 0;
   fileMappingSize = 0;
 }
