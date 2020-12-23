@@ -237,6 +237,9 @@ string InputStream4::readln()
     }
   }
   offsetBytesCounter += j;
-  if ( (!line.empty() && line.find('\n') != string::npos) || line[line.size()-1] == ' '){line.erase(line.length() - 1);}
+  if ((!line.empty() && line.find('\n') != string::npos) || line[line.size() - 1] == ' ')
+  {
+    line.erase(line.length() - 1);
+  }
   return line;
 }

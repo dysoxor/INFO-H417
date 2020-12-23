@@ -20,7 +20,6 @@ bool InputStream2::open(string path)
     perror("Open failed");
     return false;
   }
-
   seek(0);
   return true;
 }
@@ -57,8 +56,9 @@ string InputStream2::readln()
   string result = "";
   string tempRes = "";
   do
-  { IOCounter++;
-    if (fgets(buffer, bufferSize, fd) == NULL)
+  {
+    IOCounter++;
+    if (fgets(buffer, bufferSize + 1, fd) == NULL)
     {
       break;
     }

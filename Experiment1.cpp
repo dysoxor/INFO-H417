@@ -135,13 +135,13 @@ int main(int argc, char **argv)
 {
   //string file = "movie_link";
   //string file = "complete_cast";
-  //string file = "keyword";
+  string file = "keyword";
   //string file = "company_name";
   //string file = "aka_name";
-  string file = "person_info" ;
-  string f = "C:\\Users\\Asus ROG\\Documents\\ulb\\MA1\\DatabaseProject\\imdb\\" + file + ".csv";
+  //string file = "person_info";
+  string f = "C:\\Users\\Andre\\Documents\\imdb\\" + file + ".csv";
   string resultFile = "result\\result_3_4\\" + file + "_resultExp1_length_long0.txt";
-  unsigned int numberOfRun = 10;
-  //length0(f, numberOfRun, resultFile);
-  length3_4(f,numberOfRun,resultFile);
+  unsigned int numberOfRun = 3;
+  length0(f, numberOfRun, resultFile);
+  //length3_4(f, numberOfRun, resultFile);
 }
