@@ -109,9 +109,9 @@ bool sort(string f, int k, int m )
 
 int main(int argc, char **argv)
 {
-  string file = "test.txt";
+  string file = "D:\\ulb\\MA1\\DatabaseProject\\imdb\\movie_link.csv";
   int bufferSize = 1024;
-  int sortColumn = 1;
+  int sortColumn = 4;
   if(!sort(file,sortColumn,bufferSize)){std::cout << "Error in sorting the file : " << file << endl;};
   return 0;
 }
