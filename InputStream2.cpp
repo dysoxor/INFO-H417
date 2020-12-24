@@ -65,6 +65,6 @@ string InputStream2::readln()
     tempRes = buffer;
     result += tempRes;
   } while (tempRes.size() == bufferSize && buffer[bufferSize - 1] != '\n');
-  result = result.substr(0, result.size() - 1);
+  //result = result.substr(0, result.size() - 1);
   return result;
 }

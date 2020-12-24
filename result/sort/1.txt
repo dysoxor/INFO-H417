@@ -1,0 +1,61 @@
+la
+car
+saffiche
+la
+saffiche
+la
+car
+car
+saffiche
+la
+saffiche
+car
+la
+car
+saffiche
+la
+nb
+nb
+nb
+nb
+nb
+nb
+je
+le
+je
+test
+le
+test
+je
+je
+test
+le
+test
+test
+le
+test
+le
+le
+je
+je
+This is a test file
+This is a test file
+This is a test file
+This is a test file
+This is a test file
+ligne
+ligne
+ligne
+ligne
+ligne
+ligne
+correctement
+Voyons voir si les lignes
+Voyons voir si les lignes
+correctement
+correctement
+correctement
+Voyons voir si les lignes
+correctement
+Voyons voir si les lignes
+Voyons voir si les lignes
