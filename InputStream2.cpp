@@ -6,11 +6,32 @@ InputStream2::InputStream2()
   buffer = new char[bufferSize];
 }
 
+InputStream2::~InputStream2()
+{
+  delete buffer;
+}
+
 void InputStream2::setBufferSize(int size)
 {
   bufferSize = size;
   delete buffer;
   buffer = new char[bufferSize];
+}
+
+void InputStream2::setFile(string f)
+{
+  file = f;
+}
+
+bool InputStream2::open()
+{
+  if ((fd = fopen(file.c_str(), "r")) == NULL)
+  {
+    perror("Open failed");
+    return false;
+  }
+  seek(0);
+  return true;
 }
 
 bool InputStream2::open(string path)
@@ -41,7 +62,6 @@ bool InputStream2::end_of_stream()
 
 bool InputStream2::close()
 {
-  delete buffer;
   return fclose(fd) == 0;
 }
 
@@ -58,13 +78,13 @@ string InputStream2::readln()
   do
   {
     IOCounter++;
-    if (fgets(buffer, bufferSize + 1, fd) == NULL)
+    if (fgets(buffer, bufferSize, fd) == NULL)
     {
       break;
     }
     tempRes = buffer;
     result += tempRes;
-  } while (tempRes.size() == bufferSize && buffer[bufferSize - 1] != '\n');
+  } while (tempRes.size() + 1 == bufferSize && buffer[bufferSize - 1] != '\n');
   result = result.substr(0, result.size() - 1);
   return result;
 }

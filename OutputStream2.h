@@ -3,26 +3,24 @@
 
 #include "OutputStream.h"
 
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <io.h>
 #include <direct.h>
 #include <fcntl.h>
-
+#include <iostream>
 
 using namespace std;
 
 class OutputStream2 : public OutputStream
 {
 private:
-    FILE* fd;
+    FILE *fd;
+
 public:
     bool create(string path);
     void close();
     void writeln(string line);
 };
-
-
 
 #endif //PROJECT_OUTPUTSTREAM2_H
