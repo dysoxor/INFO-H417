@@ -30,7 +30,6 @@ bool InputStream2::open()
     perror("Open failed");
     return false;
   }
-  cout << file << " " << getSize() << endl;
   seek(0);
   return true;
 }

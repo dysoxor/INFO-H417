@@ -5,6 +5,7 @@
 #include <iostream>
 #include <bits/stdc++.h>
 #include <algorithm>
+#include <chrono>
 
 #include "InputStream2.h"
 #include "OutputStream2.h"
@@ -72,6 +73,8 @@ bool writeIntoFile(char *data, element *elementLine, int numberLine, int positio
 
 int sort(string f, int k, int m)
 {
+    chrono::high_resolution_clock::time_point startTime;
+    chrono::high_resolution_clock::time_point endTime;
     InputStream2 is;
     if (!is.open(f))
     {
@@ -87,7 +90,7 @@ int sort(string f, int k, int m)
     long long int numberOfLineTotal = 0;
     long long int fileSize = is.getSize();
     bool alreadyChecked = false; // Need it to avoid writing two times the same file
-    is.seek(0);
+    startTime = chrono::high_resolution_clock::now();
     do
     {
         line = is.readln() + "\n";
@@ -137,7 +140,9 @@ int sort(string f, int k, int m)
         }
         alreadyChecked = false;
     } while (!is.end_of_stream());
-
+    endTime = chrono::high_resolution_clock::now();
+    chrono::duration<double> resultTimes = chrono::duration_cast<chrono::duration<double>>(endTime - startTime);
+    cout << "sorting time: " << resultTimes.count() << "s" << endl;
     is.close();
     delete data;
     delete elementLine;
@@ -161,6 +166,8 @@ bool isEmpty(string l[], int d)
 
 bool merge(int files, int d, int k)
 {
+    chrono::high_resolution_clock::time_point startTime;
+    chrono::high_resolution_clock::time_point endTime;
     vector<InputStream2 *> is;
     string lines[d];
     vector<InputStream2 *>::iterator ptr;
@@ -174,7 +181,7 @@ bool merge(int files, int d, int k)
         is.at(i)->setFile(prefixSorted + to_string(i) + ".txt");
     }
     OutputStream2 *os = new OutputStream2();
-
+    startTime = chrono::high_resolution_clock::now();
     while (is.size() > 1)
     {
         ptr = is.begin();
@@ -259,8 +266,10 @@ bool merge(int files, int d, int k)
         int posl = pos;
         pos = (pos + 1) % is.size();
     }
+    endTime = chrono::high_resolution_clock::now();
+    chrono::duration<double> resultTimes = chrono::duration_cast<chrono::duration<double>>(endTime - startTime);
+    cout << "merging time: " << resultTimes.count() << "s" << endl;
     ptr = is.begin();
-    (*ptr)->open();
     (*ptr)->close();
     is.erase(ptr);
     delete os;
