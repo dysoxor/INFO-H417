@@ -30,6 +30,7 @@ bool InputStream2::open()
     perror("Open failed");
     return false;
   }
+  cout << file << " " << getSize() << endl;
   seek(0);
   return true;
 }
@@ -67,8 +68,11 @@ bool InputStream2::close()
 
 long long int InputStream2::getSize()
 {
+  long long int curr = fseek(fd, 0L, SEEK_CUR);
   fseek(fd, 0L, SEEK_END);
-  return ftell(fd);
+  long long int s = ftell(fd);
+  seek(curr);
+  return s;
 }
 
 string InputStream2::readln()

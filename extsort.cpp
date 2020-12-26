@@ -92,7 +92,7 @@ int sort(string f, int k, int m)
     {
         line = is.readln() + "\n";
 
-        if ((positionChar + line.size() - 1) >= m)
+        if ((positionChar + line.size()) >= m)
         {
             string fileName = "result\\sort\\" + to_string(fileNumber) + ".txt";
             ++fileNumber;
