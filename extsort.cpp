@@ -124,7 +124,7 @@ int sort(string f, int k, int m)
         ++numberOfLine;
         ++numberOfLineTotal;
 
-        if (positionInFile + numberOfLineTotal >= fileSize && !alreadyChecked)
+        if (positionInFile >= fileSize && !alreadyChecked)
         {
             string fileName = "result\\sort\\" + to_string(fileNumber) + ".txt";
             ++fileNumber;
