@@ -1,9 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string>
-#include <cstdlib>
-#include <iostream>
-#include <ctime>
+
 #include <chrono>
 
 #include "InputStream1.h"
