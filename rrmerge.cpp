@@ -7,7 +7,6 @@
 #include "InputStream4.h"
 #include "OutputStream4.h"
 
-#include "GraphFileGenerator.h"
 
 #include <chrono>
 
@@ -15,6 +14,14 @@
 
 using namespace std;
 
+/**
+ * Return if there is at least one stream open in the given array
+ * 
+ * @param is    input streams
+ * @param k     length of the array
+ * 
+ * @return  TRUE if at least one open, FALSE otherwise 
+ */
 bool areInputStreamsOpen(InputStream** is, int k) {
     for (int i = 0; i < k; i++){
         if (!is[i]->end_of_stream()){
@@ -24,6 +31,13 @@ bool areInputStreamsOpen(InputStream** is, int k) {
     return false;
 }
 
+/**
+ * Get an outputstream with the given implementation
+ * 
+ * @param implementation    number of the implementation
+ * 
+ * @return outputstream of given implementation
+ */ 
 OutputStream* getOutputStream(int implementation) {
     OutputStream* result;
     switch (implementation)
@@ -49,6 +63,16 @@ OutputStream* getOutputStream(int implementation) {
     return result;
 }
 
+
+/**
+ * Store in the given pointer an array of input streams of a given implementation with the given files already open
+ * 
+ * @param isList            pointer of the array of input streams
+ * @param implementation    number of the implementation
+ * @param fileList          array of files
+ * @param length            length of the given list
+ * 
+ */ 
 void getInputStreams(InputStream** isList, int implementation, string fileList[], int length) {
     switch (implementation)
     {
@@ -82,7 +106,15 @@ void getInputStreams(InputStream** isList, int implementation, string fileList[]
 };
 
 
-
+/**
+ * Set the size of the input streams buffer
+ * 
+ * @param isList            array of input streams
+ * @param implementation    number of the implementation
+ * @param length            length of the list
+ * @param bufferSize        new size of the buffer
+ * 
+ */ 
 void setBufferSizeInputStreams(InputStream** isList, int implementation, int length, int bufferSize) {
     switch (implementation)
     {
@@ -101,7 +133,14 @@ void setBufferSizeInputStreams(InputStream** isList, int implementation, int len
     }
 }
 
-
+/**
+ * Set the size of the output stream buffer
+ * 
+ * @param os                output stream
+ * @param implementation    number of the implementation
+ * @param bufferSize        new size of the buffer
+ * 
+ */ 
 void setBufferSizeOutputStream(OutputStream* os, int implementation, int bufferSize) {
     switch (implementation)
     {
@@ -112,7 +151,16 @@ void setBufferSizeOutputStream(OutputStream* os, int implementation, int bufferS
 }
 
 
-
+/**
+ * Merge files using a round-robin algorithm into a new file
+ * 
+ * @param fileList                      list of files
+ * @param k                             number of files
+ * @param inputStreamImplementation     number of the input stream
+ * @param outputStreamImplementation    number of the output stream
+ * @param outputFile                    path to the output file
+ * @param bufferSize                    size of the buffers
+ */ 
 void rrmerge(string fileList[], int k, int inputStreamImplementation, int outputStreamImplementation, string outputFile, int bufferSize) {
     InputStream* is[k];
     getInputStreams(is, inputStreamImplementation, fileList, k);
@@ -146,6 +194,16 @@ void rrmerge(string fileList[], int k, int inputStreamImplementation, int output
     delete os;
 };
 
+
+/**
+ * Merge files using a round-robin algorithm into a new file
+ * 
+ * @param fileList                      list of files
+ * @param k                             number of files
+ * @param inputStreamImplementation     number of the input stream
+ * @param outputStreamImplementation    number of the output stream
+ * @param outputFile                    path to the output file
+ */ 
 void rrmerge(string fileList[], int k, int inputStreamImplementation, int outputStreamImplementation, string outputFile) {
     rrmerge(fileList, k, inputStreamImplementation, outputStreamImplementation, outputFile, -1);
 }
@@ -160,12 +218,12 @@ int main(int argc, char **argv){
     }
 
     /* IO implementations */
-    int numberOfInputImplementations = 3;
-    int numberOfOutputImplementations = 1;
+    int numberOfInputImplementations = 4;
+    int numberOfOutputImplementations = 4;
     int numberOfBuffers = 1;
 
-    int inputImplementations[] = {2,3,4};
-    int outputImplementations[] = {2};
+    int inputImplementations[] = {1,2,3,4};
+    int outputImplementations[] = {1,2,3,4};
     int bufferSizes[] = {4096};
 
     /* Setup times */
@@ -183,7 +241,7 @@ int main(int argc, char **argv){
         for (int j = 0; j < numberOfOutputImplementations; j++) {
             if (inputImplementations[i] == 2 || inputImplementations[i] == 3 || outputImplementations[j] == 3) {
                 for (int k = 0; k < numberOfBuffers; k++) {
-                    path = "rrmerge/is_"+to_string(inputImplementations[i])+"_os_"+to_string(outputImplementations[j])+"_buffer_"+to_string(bufferSizes[k])+".txt";
+                    path = "rrmergeRep/is_"+to_string(inputImplementations[i])+"_os_"+to_string(outputImplementations[j])+"_buffer_"+to_string(bufferSizes[k])+".txt";
                     startTime = chrono::system_clock::now();
                     rrmerge(fileList, numberOfFiles, inputImplementations[i], outputImplementations[j], path, bufferSizes[k]);
                     endTime = chrono::system_clock::now();
@@ -192,7 +250,7 @@ int main(int argc, char **argv){
                     cout << (100*timeIndex)/numberOfTimesMajor << "..";
                 }
             } else {
-                path = "rrmerge/is_"+to_string(inputImplementations[i])+"_os_"+to_string(outputImplementations[j])+".txt";
+                path = "rrmergeRep/is_"+to_string(inputImplementations[i])+"_os_"+to_string(outputImplementations[j])+".txt";
                 startTime = chrono::system_clock::now();
                 rrmerge(fileList, numberOfFiles, inputImplementations[i], outputImplementations[j], path);
                 endTime = chrono::system_clock::now();
@@ -203,45 +261,16 @@ int main(int argc, char **argv){
         }
     }
     cout <<"End" << endl;
-    GraphFileGenerator* gfg = new GraphFileGenerator("graphOutput.txt");
-    gfg->setTitle("RR merge");
-    gfg->setAxis("InputStream", "Time (ms)");
     timeIndex = 0;
     int minTimeIndex = 0;
     string result = "Best : IS"+to_string(inputImplementations[0])+", OS"+to_string(outputImplementations[0])+", Time :"+to_string(resultTimes[0])+"ms";
 
-    /*for (int i = 0; i < numberOfInputImplementations; i++) {
-        gfg->nextLine("IS"+to_string(inputImplementations[i]));
-        for (int j = 0; j < numberOfOutputImplementations; j++) {
-            if (inputImplementations[i] == 2 || inputImplementations[i] == 3 || outputImplementations[j] == 3) {
-                for (int k = 0; k < numberOfBuffers; k++) {
-                    cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Buffer size : " << bufferSizes[k] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
-                    gfg->addPoint(bufferSizes[k], resultTimes[timeIndex]);
-                    if (resultTimes[timeIndex] < resultTimes[minTimeIndex]) {
-                        result = "Best : IS"+to_string(inputImplementations[i])+", OS"+to_string(outputImplementations[j])+", Buffer size :"+ to_string(bufferSizes[k])+", Time :"+to_string(resultTimes[timeIndex])+"ms";
-                        minTimeIndex = timeIndex;
-                    }
-                    timeIndex++;
-                }
-            } else {
-                cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
-                gfg->addPoint(inputImplementations[i], resultTimes[timeIndex]);
-                if (resultTimes[timeIndex] < resultTimes[minTimeIndex]) {
-                    result = "Best : IS"+to_string(inputImplementations[i])+", OS"+to_string(outputImplementations[j])+", Time : "+to_string(resultTimes[timeIndex])+"ms";
-                    minTimeIndex = timeIndex;
-                }
-                timeIndex++;
-            }
-        }
-    }*/
 
     for (int i = 0; i < numberOfInputImplementations; i++) {
-        gfg->nextLine("IS"+to_string(inputImplementations[i]));
         for (int j = 0; j < numberOfOutputImplementations; j++) {
             if (inputImplementations[i] == 2 || inputImplementations[i] == 3 || outputImplementations[j] == 3) {
                 for (int k = 0; k < numberOfBuffers; k++) {
                     cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Buffer size : " << bufferSizes[k] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
-                    gfg->addPoint(inputImplementations[i], resultTimes[timeIndex]);
                     if (resultTimes[timeIndex] < resultTimes[minTimeIndex]) {
                         result = "Best : IS"+to_string(inputImplementations[i])+", OS"+to_string(outputImplementations[j])+", Buffer size :"+ to_string(bufferSizes[k])+", Time :"+to_string(resultTimes[timeIndex])+"ms";
                         minTimeIndex = timeIndex;
@@ -250,7 +279,6 @@ int main(int argc, char **argv){
                 }
             } else {
                 cout << "IS : " << inputImplementations[i] << ", OS : " << outputImplementations[j] << ", Time : " << resultTimes[timeIndex] << "ms"<< endl;
-                gfg->addPoint(inputImplementations[i], resultTimes[timeIndex]);
                 if (resultTimes[timeIndex] < resultTimes[minTimeIndex]) {
                     result = "Best : IS"+to_string(inputImplementations[i])+", OS"+to_string(outputImplementations[j])+", Time : "+to_string(resultTimes[timeIndex])+"ms";
                     minTimeIndex = timeIndex;
@@ -259,10 +287,8 @@ int main(int argc, char **argv){
             }
         }
     }
-    gfg->writeResult();
-    delete gfg;
 
-    //cout << result << endl;
+    cout << result << endl;
 
 
 
