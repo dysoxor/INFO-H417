@@ -21,8 +21,8 @@ private:
   int numberOfBlockMapped = 1;    //Base one but can be chosen by the user
   int offsetBytesCounter = 0;
 
-  //Private éethod concerning the method of reading the file with mapping
-  bool openAndMapFile(string path, long long int offsetInTheFile = 0, int numberOfBlock = 1);
+  //Private method concerning the reading of the file with mapping
+  bool openAndMapFile(string path, long  long int offsetInTheFile = 0, int numberOfBlock = 1);
   bool openFile(string path); //Open the file and store into hfile the link
   bool getTheFileSize();      //Get the file size in the correct type
   bool mappingFile();
@@ -35,7 +35,7 @@ public:
   InputStream4(); // Constructor
   bool open(string path);
   bool close();    //Close all object related to the stream
-  string readln(); //Read the next line via mappingstring readln4(); //Read the next line via mapping
+  string readln(); //Read the next line
   void seek(int pos);
   bool end_of_stream();
   long long int getSize();
