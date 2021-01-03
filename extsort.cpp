@@ -151,6 +151,14 @@ int sort(string f, int k, int m)
     return fileNumber;
 }
 
+/**
+ * check if an array has only empty strings
+ * 
+ * @param l     queue of strings from different files that has to be merged
+ * @param d     size of the queue
+ * 
+ * @return      TRUE if all items of the array are empty strings, FALSE otherwise 
+ */
 bool isEmpty(string l[], int d)
 {
     for (int i = 0; i < d; i++)
@@ -164,30 +172,39 @@ bool isEmpty(string l[], int d)
     return true;
 }
 
+/**
+ * merge files into a single one. The result is the last file in the folder 'result\merge\'
+ * 
+ * @param files how many sorted files to merge
+ * @param d     size of the queue
+ * @param k     column that is used at each line to sort lines
+ * 
+ * @return      TRUE the merge was done succesfully, FALSE otherwise 
+ */
 bool merge(int files, int d, int k)
 {
     chrono::high_resolution_clock::time_point startTime;
     chrono::high_resolution_clock::time_point endTime;
-    vector<InputStream2 *> is;
-    string lines[d];
-    vector<InputStream2 *>::iterator ptr;
+    vector<InputStream2 *> is;            // List of all input streams that the programm has to merge
+    string lines[d];                      // The queue
+    vector<InputStream2 *>::iterator ptr; // the iterator for the list of  input streams
     int pos = 0;
     int counter = 0;
-    string prefixSorted = "result\\sort\\";
-    string prefixMerged = "result\\merge\\";
+    string prefixSorted = "result\\sort\\";  // folder where all sorted files are stored
+    string prefixMerged = "result\\merge\\"; // folder where all merges files will be stored
     for (int i = 0; i < files; i++)
     {
         is.push_back(new InputStream2());
-        is.at(i)->setFile(prefixSorted + to_string(i) + ".txt");
+        is.at(i)->setFile(prefixSorted + to_string(i) + ".txt"); // do not directly open because it is impossible if there are a lot of files
     }
     OutputStream2 *os = new OutputStream2();
     startTime = chrono::high_resolution_clock::now();
-    while (is.size() > 1)
+    while (is.size() > 1) // do until there is only 1 file at the end
     {
         ptr = is.begin();
         advance(ptr, pos);
-        int round = min(d, (int)is.size());
-        for (int i = 0; i < round; i++)
+        int round = min(d, (int)is.size()); // size of the queue
+        for (int i = 0; i < round; i++)     // load the first line of files to merge in the queue
         {
             if (!((*ptr)->open()))
             {
@@ -211,7 +228,7 @@ bool merge(int files, int d, int k)
                 advance(ptr, 1);
             }
         }
-        if (!os->create(prefixMerged + to_string(counter) + ".txt"))
+        if (!os->create(prefixMerged + to_string(counter) + ".txt")) // create output file for the corresponding merge
         {
             cerr << "Error create" << endl;
             return false;
@@ -219,7 +236,7 @@ bool merge(int files, int d, int k)
 
         int best;
         int ptrBest;
-        while (!isEmpty(lines, round))
+        while (!isEmpty(lines, round)) // merge until all the files of the queue are at the end of stream
         {
             ptr = is.begin();
             advance(ptr, pos);
@@ -227,13 +244,13 @@ bool merge(int files, int d, int k)
             ptrBest = 0;
             for (int i = 0; i < round; i++)
             {
-                if (lines[i].compare("") != 0 && (int)lines[i][k] < best)
+                if (lines[i].compare("") != 0 && (int)lines[i][k] < best) // compare characters with their ASCII value
                 {
                     ptrBest = i;
                     best = (int)lines[i][k];
                 }
             }
-            os->writeln(lines[ptrBest]);
+            os->writeln(lines[ptrBest]); // write the line with the smallest character
             ptr = is.begin();
             advance(ptr, (pos + ptrBest) % is.size());
             if (!(*ptr)->end_of_stream())
@@ -247,7 +264,7 @@ bool merge(int files, int d, int k)
         }
         ptr = is.begin();
         advance(ptr, pos);
-        for (int i = 0; i < round - 1; i++)
+        for (int i = 0; i < round - 1; i++) // delete files that were merged and only keep the last one for the merged file
         {
             (*ptr)->close();
             //delete (*ptr);

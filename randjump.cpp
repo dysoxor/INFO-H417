@@ -9,13 +9,16 @@
 #include "GraphFileGenerator.h"
 
 using namespace std;
-
-void freeStreamPointer(InputStream *is)
-{
-    delete is;
-    is = NULL;
-}
-
+/**
+ * check if an array has only empty strings
+ * 
+ * @param f         input file
+ * @param j         number of random jumps
+ * @param streamId  the input stream to use
+ * @param t         random parameter
+ * 
+ * @return          time needed to execute the experiment
+ */
 double RandJump(string f, int j, unsigned int streamId, int t)
 {
     chrono::high_resolution_clock::time_point startTime;
@@ -48,12 +51,12 @@ double RandJump(string f, int j, unsigned int streamId, int t)
     {
         startTime = chrono::high_resolution_clock::now();
         long long int sum = 0;
-        long long int randomMax = RAND_MAX;
+        long long int randomMax = RAND_MAX; // max value of the random number
         long long int it = 1;
         while (randomMax < is->getSize())
         {
             randomMax += RAND_MAX;
-            it++;
+            it++; // number of times that the program must generate random number to be able to chose a number on the full size of the file
         }
         long long int p;
         for (long long int i = 0; i < j; i++)
@@ -62,13 +65,13 @@ double RandJump(string f, int j, unsigned int streamId, int t)
 
             for (long long int k = 0; k < it; k++)
             {
-                srand(t + p * 5 + 8 * sum * rand());
+                srand(t + p * 5 + 8 * sum * rand()); // because it is a pseudo random generator, there are some parameters to give to control it nd make it random in the same time
                 p += rand();
             }
-            p = (p % is->getSize());
+            p = (p % is->getSize()); // random position
             is->seek(p);
             string str = is->readln();
-            if (str.length() == 0)
+            if (str.length() == 0) // increment the position if the program reads an end of line otherwise the random number is stuck on the same number each round
             {
                 p = ((p + 1) % is->getSize());
                 is->seek(p);
@@ -112,7 +115,7 @@ int main(int argc, char **argv)
         paths[i - 2] = argv[i];
     }
 
-    GraphFileGenerator *gfg = new GraphFileGenerator("graphOutput.txt");
+    GraphFileGenerator *gfg = new GraphFileGenerator("graphOutput.txt"); // text file to generate graphs
     gfg->setTitle("Exp2 with buffer 1024");
     gfg->setAxis("file", "Time (s)");
     gfg->nextLine("IS1");
