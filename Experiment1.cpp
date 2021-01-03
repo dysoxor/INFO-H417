@@ -12,6 +12,13 @@ void freeStreamPointer(InputStream *is)
   is = NULL;
 }
 
+/**
+* This function is called when a run on a certain implementation and with a specific file is needed. This function use the chrono
+* library to calculate the execution time.
+* @param string f      the name of the file on which the run will be done
+* @param int streamId  the number if the implementation to test (1,2,3,4)
+* @return	a double corresponding to the execution time
+*/
 double readImplementId(string f, unsigned int streamId)
 {
 
@@ -70,7 +77,13 @@ double readImplementId(string f, unsigned int streamId)
   return result;
 }
 
-//Length funciton for the 4 implementation
+/**
+* First implementation of the length function which is used to test all the 4 implementation on the file for
+* a specific numbers of runs and write it to a result file.
+* @param string f                the path to the test file
+* @param int numberOfTimes       the number of runs for each implementation
+* @param string resultStreamPath the path to the result file in which this function will write
+*/
 void length0(string f, int numberOfTimes, string resultStreamPath)
 {
 
@@ -100,7 +113,13 @@ void length0(string f, int numberOfTimes, string resultStreamPath)
   resultStream.close();
 }
 
-//Length function for the implementation 3-4
+/**
+* Second implementation of the length function but here it tests only the implementation 3 and 4 in order to see the impact of the paramaters
+* of this two methods on the execution time. The parameters of the two implementation are modified manualy between each call of this function.
+* @param string f                the path to the test file
+* @param int numberOfTimes       the number of runs for each implementation
+* @param string resultStreamPath the path to the result file in which this function will write
+*/
 void length3_4(string f, int numberOfTimes, string resultStreamPath)
 {
 
@@ -133,15 +152,10 @@ void length3_4(string f, int numberOfTimes, string resultStreamPath)
 
 int main(int argc, char **argv)
 {
-  //string file = "movie_link";
-  //string file = "complete_cast";
-  //string file = "keyword";
   string file = "company_name";
-  //string file = "aka_name";
-  //string file = "person_info" ;
-  string f = "D:\\ulb\\MA1\\DatabaseProject\\imdb\\" + file + ".csv";
+  string f = "D:\\ulb\\MA1\\DatabaseProject\\imdb\\" + file + ".csv"; //The path to the database
   string resultFile = "result\\" + file + "_resultExp1_length.txt";
-  unsigned int numberOfRun = 4;
-  length0(f, numberOfRun, resultFile);
+  unsigned int numberOfRun = 4; //The number of successive runs, the result will be the mean of the results of those runs.
+  length0(f, numberOfRun, resultFile); //The method to call between the two possible
   //length3_4(f,numberOfRun,resultFile);
 }
