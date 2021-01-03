@@ -39,6 +39,12 @@ bool OutputStream4::getTheFileSize(){
   return true;
 }
 
+/**
+*This function create a mapping of the file in memory which is of PAGE_READWRITE type, with this access type the mapping can be of 
+* bigger size than the file in order to write in it. When the memory will write back the file into the disk the size modification
+* will also be done in the disk by allocating more space to the file.
+* @return	TRUE the mapping was succesful, FALSE otherwise
+*/
 
 bool OutputStream4::mappingFile(){
   //Mapped the file and retrieve the Handler
@@ -102,6 +108,13 @@ void OutputStream4::close(){
   closeWindowsFile();
 }
 
+/**
+* This function takes a string and write it into the mapView link to the mapping of the file which handle is in the attribut of the class.
+* In order ti limit the numbers of time thhe mapping is done, the mapping of the file is done only when the size of the actual file + the
+* size of the next line to write is over the limit of the mapping size. Each time this case happened we have to remap the file in memory
+* with an increase size and recreate a mapView and adjust it to be where the pointer was.
+*@param string line   the line to write in the file
+*/
 void OutputStream4::writeln(string line){
   line += '\n';
   if(hfile==NULL){std::cout << "Empty file handle" << endl; return;}
