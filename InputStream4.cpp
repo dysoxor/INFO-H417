@@ -34,6 +34,14 @@ bool InputStream4::end_of_stream()
   return false;
 }
 
+/**
+* Class function used by open which put as default value offset to 0 and numberOfBlock to map to 1. This function open the file and store the handle to it, then create a mapping of this file 
+* in memory and then create a mapview of size numberOfBlock in order to read the file.
+* @param string	path                      the path to the file
+* @param long long int  offsetInTheFile   Correspond the offset at which the mapping can start, its base value is 0
+* @param int numberOfBlock                this correspond to the size of the mapView which will be a multiple of the system granularity, here the base value is 1
+* @return	TRUE if everything worked correctly, FALSE otherwise
+*/
 bool InputStream4::openAndMapFile(string path, long long int offsetInTheFile, int numberOfBlock)
 {
   if (!openFile(path))
@@ -80,6 +88,10 @@ bool InputStream4::openFile(string path)
   return isNormal;
 }
 
+/**
+* Function which calculate and store the actual size of the file link to hfile the hamdle store as attribut
+* @return	TRUE if the size isc correctly stored as attribut
+*/
 bool InputStream4::getTheFileSize()
 {
   DWORD lpFileOpenSizeHigh = 0;
@@ -116,10 +128,11 @@ bool InputStream4::mappingFile()
   return isNormal;
 }
 
-/*
-  This is where we have to be careful with the size, the MapView is reserved
-  space in the virtual memory of the process and must not be too big. We need
-  to map only the part that we are going to use. (Must respect the syst granularity)
+/**
+* This is where we have to be careful with the size, the MapView is reserved
+* space in the virtual memory of the process and must not be too big. We need
+* to map only the part that we are going to use. (Must respect the syst granularity)
+* @return	TRUE if the creation of the mapView is successful, FALSE otherwise
 */
 bool InputStream4::mapViewLink()
 {
@@ -134,7 +147,7 @@ bool InputStream4::mapViewLink()
   long long int FileMapStartHighInt = FileMapStart & 0xFFFFFFFF00000000;
   DWORD dwFileMapStartLow = FileMapStartLowInt; // The offset at which the mapView start in bits
   DWORD dwFileMapStartHigh = FileMapStartHighInt;
-  DWORD dwMapViewSize = (numberOfBlockMapped * (granularity)); //In bytes !!
+  DWORD dwMapViewSize = (numberOfBlockMapped * (granularity));
 
   if ((FileMapStart + dwMapViewSize) > fileOpenSize)
   {
@@ -189,6 +202,13 @@ long long int InputStream4::getSize()
 {
   return fileOpenSize;
 }
+
+/**
+* Function which read the next line in the file and returns it. The next line can be at the limit of the last mapview so a check has to be done in order to not try to read
+* character beyond the mapview limit. If this happened we have to store what was already readen adjust the offset to where we are and generate a new mapview to resume the 
+* reading until a endline character is reached.
+* @return	string containing the nextline in the file
+*/
 
 string InputStream4::readln()
 {
