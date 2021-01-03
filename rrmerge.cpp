@@ -261,6 +261,9 @@ int main(int argc, char **argv){
         }
     }
     cout <<"End" << endl;
+
+    /* Display results */
+    
     timeIndex = 0;
     int minTimeIndex = 0;
     string result = "Best : IS"+to_string(inputImplementations[0])+", OS"+to_string(outputImplementations[0])+", Time :"+to_string(resultTimes[0])+"ms";
@@ -289,9 +292,6 @@ int main(int argc, char **argv){
     }
 
     cout << result << endl;
-
-
-
 
     return 0;
 }
