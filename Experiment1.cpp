@@ -152,10 +152,11 @@ void length3_4(string f, int numberOfTimes, string resultStreamPath)
 
 int main(int argc, char **argv)
 {
-  string file = "company_name";
-  string f = "D:\\ulb\\MA1\\DatabaseProject\\imdb\\" + file + ".csv"; //The path to the database
-  string resultFile = "result\\" + file + "_resultExp1_length.txt";
+  string inputFile = argv[1];
+  string fileName = inputFile.substr(inputFile.find_last_of("/\\")+1);
+  fileName = fileName.substr(0,fileName.find_last_of("."));
+  string resultFile = "result\\" + fileName + "_resultExp1_length.txt";
   unsigned int numberOfRun = 4; //The number of successive runs, the result will be the mean of the results of those runs.
-  length0(f, numberOfRun, resultFile); //The method to call between the two possible
+  length0(inputFile, numberOfRun, resultFile); //The method to call between the two possible
   //length3_4(f,numberOfRun,resultFile);
 }
