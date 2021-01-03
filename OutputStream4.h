@@ -34,7 +34,7 @@ private:
 public:
 
   OutputStream4();
-  void writeln(string line); //Read the next line via mappingstring readln4(); //Read the next line via mapping
+  void writeln(string line);//Write to the file the content of the string into a next line
   bool create(string path);//Create the file and store into hfile the link
   void close();
 };
